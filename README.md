@@ -34,16 +34,16 @@ Unregistered users can browse listings and view details, while registered users 
 
 ## ⚙️ Built With
 
-- [Vite](https://vitejs.dev/) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=Vite&logoColor=white) - Build tool and dev server  
-- [TypeScript](https://www.typescriptlang.org/) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) - For improved code reliability 
-- [Tailwind CSS](https://tailwindcss.com/) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-grey?style=flat&logo=tailwind-css&logoColor=38B2AC) - Utility-first CSS framework 
-- [Noroff Auction API](https://docs.noroff.dev/docs/v2/auction-house/listings) – Backend API  
+- [Vite](https://vitejs.dev/) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=Vite&logoColor=white) - Build tool and dev server
+- [TypeScript](https://www.typescriptlang.org/) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) - For improved code reliability
+- [Tailwind CSS](https://tailwindcss.com/) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-grey?style=flat&logo=tailwind-css&logoColor=38B2AC) - Utility-first CSS framework
+- [Noroff Auction API](https://docs.noroff.dev/docs/v2/auction-house/listings) – Backend API
 
 **Project Tools:**
 
-- Visual Studio Code  
-- Figma for UI design and prototyping  
-- GitHub Projects for task management and planning  
+- Visual Studio Code
+- Figma for UI design and prototyping
+- GitHub Projects for task management and planning
 
 ---
 
@@ -123,17 +123,17 @@ npm run format
 ### 🌐 Live Demo
 
 👉 [https://mamf92.github.io/wexfordgallery/](https://mamf92.github.io/wexfordgallery/)  
-*(placeholder – will update once deployed)*
+_(placeholder – will update once deployed)_
 
 ---
 
 ## 🧭 User Stories
 
-- As a user, I can register an account with my `@stud.noroff.no` email to participate in auctions.  
-- As a registered user, I can create, update, and delete my own listings.  
-- As a registered user, I can place bids on listings created by others.  
-- As a registered user, I can see my total credit, bids, and active listings on my profile.  
-- As any visitor, I can browse listings, search for specific items, and view details of a single listing.  
+- As a user, I can register an account with my `@stud.noroff.no` email to participate in auctions.
+- As a registered user, I can create, update, and delete my own listings.
+- As a registered user, I can place bids on listings created by others.
+- As a registered user, I can see my total credit, bids, and active listings on my profile.
+- As any visitor, I can browse listings, search for specific items, and view details of a single listing.
 
 ---
 
@@ -141,13 +141,13 @@ npm run format
 
 This project meets the following **Semester Project 2** criteria:
 
-- Uses **vanilla JavaScript / TypeScript** (no frameworks).  
-- Integrates with the **Noroff Auction House API (v2)**.  
-- Hosted on **GitHub Pages**.  
-- Follows modern and responsive **UI/UX** principles.  
-- Includes **accessibility** and **clean, modular code**.  
-- Features a **high-fidelity design prototype** in Figma.  
-- Repository maintained with **GitHub Projects** and clear commit history.  
+- Uses **vanilla JavaScript / TypeScript** (no frameworks).
+- Integrates with the **Noroff Auction House API (v2)**.
+- Hosted on **GitHub Pages**.
+- Follows modern and responsive **UI/UX** principles.
+- Includes **accessibility** and **clean, modular code**.
+- Features a **high-fidelity design prototype** in Figma.
+- Repository maintained with **GitHub Projects** and clear commit history.
 
 ---
 
@@ -162,15 +162,15 @@ You may not reproduce, distribute, modify, or use any part of this project or it
 
 ## 👤 Contact
 
-- [LinkedIn – Martin Fischer](https://www.linkedin.com/in/mamf92/)  
+- [LinkedIn – Martin Fischer](https://www.linkedin.com/in/mamf92/)
 - [GitHub – @mamf92](https://github.com/mamf92)
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **Noroff Auction House API** documentation  
-- Noroff Frontend Development instructors and peers  
-- All open-source tools and libraries used  
+- **Noroff Auction House API** documentation
+- Noroff Frontend Development instructors and peers
+- All open-source tools and libraries used
 
 ---

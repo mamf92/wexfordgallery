@@ -1,1 +1,34 @@
 @import 'tailwindcss';
+
+/* Fonts */
+@font-face {
+  font-family: 'Parisienne';
+  src: url('/src/assets/fonts/Parisienne.ttf') format('truetype');
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Raleway';
+  src: url('/src/assets/fonts/Raleway.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Bitter';
+  src: url('/src/assets/fonts/Bitter.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@theme {
+  --font-hero: Parisienne, serif;
+  --font-hero-sub: Raleway, sans-serif;
+  --font-heading: Bitter, serif;
+  --font-body: Raleway, sans-serif;
+
+  --color-wexham-black: #0d0d0d;
+  --color-wexham-white: #f2f2f2;
+  --color-wexham-dark: #011526;
+  --color-wexham-blue: #395873;
+  --color-wexham-light: #a9c6d9;
+}

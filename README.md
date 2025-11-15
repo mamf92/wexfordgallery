@@ -111,11 +111,14 @@ npm run preview
 
 ### ✅ Code Quality
 
-Run ESLint and Prettier formatting:
+A pre-commit hook runs ESLint and Prettier using lint-staged before commits, to ensure correct formatting and code without errors.
+
+To run ESLint and Prettier formatting manually:
 
 ```bash
-npm run lint
-npm run format
+npm run lint #Checks changed files, fixes what is possible, gives report
+npm run check #Checks if code is formatted --check
+npm run format #Checks and formats code --write
 ```
 
 ---

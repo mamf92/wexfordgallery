@@ -39,7 +39,7 @@ interface RegisterResponse {
 }
 
 export async function register(data: RegisterData): Promise<RegisterResponse> {
-  const response = await post<RegisterResponse>('/auth/register', data);
+  const response = await post<RegisterResponse>('/auth/register', data, false);
   if (!response)
     throw new Error('Error registering user: No response data received.');
   return response;
@@ -50,7 +50,7 @@ export async function register(data: RegisterData): Promise<RegisterResponse> {
  */
 
 export async function login(data: LoginData): Promise<LoginResponse> {
-  const response = await post<LoginResponse>('/auth/login', data);
+  const response = await post<LoginResponse>('/auth/login', data, false);
 
   if (!response) {
     throw new Error('Error signing in: No response data received.');

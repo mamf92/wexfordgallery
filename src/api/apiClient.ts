@@ -7,7 +7,7 @@ interface ApiOptions {
   /**
    * Optional request body data.
    */
-  body?: Record<string, unknown>;
+  body?: unknown;
   /**
    * HTTP method for the request. Defaults to 'GET' or 'POST' based on presence of body.
    */
@@ -134,10 +134,11 @@ export const get = <T = unknown>(endpoint: string, requiresAuth = true) =>
 
 /**
  * Send a POST request.
+ * example:
  */
 export const post = <T = unknown>(
   endpoint: string,
-  body: Record<string, unknown>,
+  body: unknown,
   requiresAuth = true
 ) => apiClient<T>(endpoint, { body, method: 'POST', requiresAuth });
 
@@ -146,7 +147,7 @@ export const post = <T = unknown>(
  */
 export const put = <T = unknown>(
   endpoint: string,
-  body?: Record<string, unknown>,
+  body?: unknown,
   requiresAuth = true
 ) => apiClient<T>(endpoint, { method: 'PUT', body, requiresAuth });
 

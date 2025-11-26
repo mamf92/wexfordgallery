@@ -43,6 +43,9 @@ export interface Listing {
   _count: { bids: number };
 }
 
+/**
+ * A full listing object including seller and bids.
+ */
 export interface FullListing extends Listing {
   seller?: Seller;
   bids?: BidInListing[];
@@ -67,6 +70,9 @@ export interface PaginatedResponse<T> {
   meta: PaginationMeta;
 }
 
+/**
+ * Response type for single item responses.
+ */
 export interface SingleResponse<T> {
   data: T;
   meta: Record<string, unknown>;
@@ -92,7 +98,7 @@ export interface CreateListingFormData {
 }
 
 /**
- * Response type for creating a new listing.
+ * Response type when new listing is successfully created.
  */
 export interface CreateListingResponse {
   data: Listing;
@@ -135,6 +141,10 @@ export async function getSimpleListings({
   return response;
 }
 
+/**
+ *
+ * Fetch newest active listings with optional pagination and limited results per page.
+ */
 export async function getNewestActiveListings({
   page = 1,
   limit = 10,
@@ -149,6 +159,10 @@ export async function getNewestActiveListings({
   return response;
 }
 
+/**
+ *
+ * Fetch active listings with optional pagination and limited results per page.
+ */
 export async function getActiveListings({
   page = 1,
   limit = 10,
@@ -163,6 +177,10 @@ export async function getActiveListings({
   return response;
 }
 
+/**
+ *
+ * Fetch active listings by tag with optional pagination and limited results per page.
+ */
 export async function getActiveListingsWithTags(
   tag: string,
   { page = 1, limit = 10 }: PaginationProps
@@ -177,11 +195,15 @@ export async function getActiveListingsWithTags(
   return response;
 }
 
+/**
+ *
+ * Fetch a listing by its ID.
+ */
 export async function getListingById(
   listingId: string
 ): Promise<SingleResponse<Listing>> {
   const response = await get<SingleResponse<Listing>>(
-    `/auction/listings/${listingId}?_seller=true&_bids=true`,
+    `/auction/listings/${listingId}`,
     false
   );
   if (!response) {
@@ -190,6 +212,10 @@ export async function getListingById(
   return response;
 }
 
+/**
+ *
+ * Fetch a full listing by its ID with included seller and bids information.
+ */
 export async function getFullListingById(
   listingId: string
 ): Promise<SingleResponse<FullListing>> {
@@ -203,6 +229,10 @@ export async function getFullListingById(
   return response;
 }
 
+/**
+ *
+ * Fetch listings by search query with optional pagination and limited results per page.
+ */
 export async function getListingsBySearchQuery(
   query: string,
   { page = 1, limit = 10 }: PaginationProps

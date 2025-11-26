@@ -13,6 +13,9 @@ export interface RegisterData {
   password: string;
 }
 
+/**
+ * A base user object representing base user properties.
+ */
 export interface BaseUser {
   name: string;
   email: string;
@@ -20,6 +23,7 @@ export interface BaseUser {
   avatar: Media;
   banner: Media;
 }
+
 interface LoginUser extends BaseUser {
   accessToken: string;
 }
@@ -34,6 +38,10 @@ interface RegisterResponse {
   meta: Record<string, unknown>;
 }
 
+/**
+ *
+ * Registers a new user with the provided data.
+ */
 export async function register(data: RegisterData): Promise<RegisterResponse> {
   const response = await post<RegisterResponse>('/auth/register', data, false);
   if (!response)

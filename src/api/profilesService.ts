@@ -1,159 +1,146 @@
 import { get, put } from './apiClient';
-import type { Media, PaginationMeta, PostsResponse } from './listingsService';
+import type { BaseUser } from './authService';
+import type {
+  SingleResponse,
+  PaginatedResponse,
+  PaginationProps,
+  FullListing,
+  Listing,
+} from './listingsService';
 
-export interface ShortProfile {
+export interface Profile extends BaseUser {
+  credits: number;
+  _count: { listings: number; wins: number };
+}
+
+type ProfileUpdateData = Omit<BaseUser, 'name' | 'email'>;
+
+interface ProfileUpdateProps {
   name: string;
-  email: string;
-  bio: string;
-  banner: Media;
-  avatar: Media;
+  data: ProfileUpdateData;
 }
 
-export interface Profile {
+export interface ProfileQueryProps extends PaginationProps {
   name: string;
-  email: string;
-  bio: string;
-  banner: Media;
-  avatar: Media;
-  _count: { posts: number; followers: number; following: number };
 }
 
-export interface ProfileResponse {
-  data: Profile;
-  meta: Record<string, unknown>;
+type SimpleListing = Omit<Listing, '_count'>;
+
+interface PlacedBidWithListing {
+  id: number;
+  amount: number;
+  bidder: BaseUser;
+  created: string; // ISO 8601 date string
+  listing: SimpleListing;
 }
 
-export interface ProfilesResponse {
-  data: Profile[];
-  meta: PaginationMeta;
-}
+type PlacedBid = Omit<PlacedBidWithListing, 'listing'>;
 
-export interface PostsByProfileProps {
-  name: string;
-  page?: number;
-  limit?: number;
-}
-
-export interface FollowingResponse {
-  data: {
-    followers: ShortProfile[];
-    following: ShortProfile[];
-  };
-  meta: Record<string, unknown>;
-}
-
-export interface ProfileWithRelations extends Profile {
-  followers?: ShortProfile[];
-  following?: ShortProfile[];
-}
-
-export interface ProfileWithRelationsResponse {
-  data: ProfileWithRelations;
-  meta: Record<string, unknown>;
-}
-
-export async function getProfiles(): Promise<ProfilesResponse> {
-  try {
-    const response = await get<ProfilesResponse>('/social/profiles');
-    if (!response) {
-      throw new Error('Could not fetch profiles.');
-    }
-    return response;
-  } catch (error) {
-    console.error('Error fetching profiles:', error);
-    throw error;
-  }
-}
-
-export async function getProfileByName(name: string): Promise<ProfileResponse> {
-  try {
-    const response = await get<ProfileResponse>(`/social/profiles/${name}`);
-    if (!response) {
-      throw new Error('Could not fetch profile by name.');
-    }
-    return response;
-  } catch (error) {
-    console.error('Error fetching profile by name:', error);
-    throw error;
-  }
-}
-
-export async function getPostsByProfile(
-  props: PostsByProfileProps
-): Promise<PostsResponse> {
-  try {
-    const response = await get<PostsResponse>(
-      `/social/profiles/${props.name}/posts?page=${props.page || 1}&limit=${
-        props.limit || 10
-      }&_author=true`
-    );
-    if (!response) {
-      throw new Error('Could not fetch posts by profile.');
-    }
-    return response;
-  } catch (error) {
-    console.error('Error fetching posts by profile:', error);
-    throw error;
-  }
-}
-
-// export async function updateProfile(
-//   name: string,
-//   data: Partial<Profile>
-// ): Promise<ProfileResponse> {
-//   //TODO
-// }
-
-export async function followProfile(name: string): Promise<FollowingResponse> {
-  console.log(`Calling followProfile for: ${name}`);
-  try {
-    const response = await put<FollowingResponse>(
-      `/social/profiles/${name}/follow`
-    );
-    if (!response) {
-      throw new Error('Could not follow profile.');
-    }
-    return response;
-  } catch (error) {
-    console.error('Error following profile:', error);
-    throw error;
-  }
-}
-
-export async function unfollowProfile(
+export async function getSingleProfile(
   name: string
-): Promise<FollowingResponse> {
-  try {
-    const response = await put<FollowingResponse>(
-      `/social/profiles/${name}/unfollow`
-    );
-    if (!response) {
-      throw new Error('Could not unfollow profile.');
-    }
-    return response;
-  } catch (error) {
-    console.error('Error fetching posts by profile:', error);
-    throw error;
+): Promise<SingleResponse<Profile>> {
+  const response = await get<SingleResponse<Profile>>(
+    `/auction/profiles/${name}`
+  );
+  if (!response) {
+    throw new Error('Could not fetch profile.');
   }
+  return response;
 }
 
-export async function getFollowingNames(me: string): Promise<Set<string>> {
-  try {
-    const response = await get<ProfileWithRelationsResponse>(
-      `/social/profiles/${me}?_following=true`
-    );
-    if (!response || !response.data) {
-      throw new Error('Could not fetch following names.');
-    }
-
-    const names = response.data.following?.map((profile) => profile.name) || [];
-    return new Set(names);
-  } catch (error) {
-    console.error('Error fetching following names:', error);
-    throw error;
+export async function getFullListingsByProfile({
+  name,
+  page = 1,
+  limit = 10,
+}: ProfileQueryProps): Promise<PaginatedResponse<FullListing>> {
+  const response = await get<PaginatedResponse<FullListing>>(
+    `/auction/profiles/${name}/listings?_seller=true&_bids=true&page=${page}&limit=${limit}`
+  );
+  if (!response) {
+    throw new Error('Could not fetch listings by profile.');
   }
+  return response;
 }
 
-// export async function searchProfiles(query: string): Promise<ProfilesResponse> {
-//   //TODO
-// }
+export async function getSimpleListingsByProfile({
+  name,
+  page = 1,
+  limit = 10,
+}: ProfileQueryProps): Promise<PaginatedResponse<Listing>> {
+  const response = await get<PaginatedResponse<Listing>>(
+    `/auction/profiles/${name}/listings?page=${page}&limit=${limit}`
+  );
+  if (!response) {
+    throw new Error('Could not fetch listings by profile.');
+  }
+  return response;
+}
+
+export async function getBidsWithListingsByProfile({
+  name,
+  page = 1,
+  limit = 10,
+}: ProfileQueryProps): Promise<PaginatedResponse<PlacedBidWithListing>> {
+  const response = await get<PaginatedResponse<PlacedBidWithListing>>(
+    `/auction/profiles/${name}/bids?page=${page}&limit=${limit}&_listings=true`
+  );
+  if (!response) {
+    throw new Error('Could not fetch bids by profile.');
+  }
+  return response;
+}
+
+export async function getBidsByProfile({
+  name,
+  page = 1,
+  limit = 10,
+}: ProfileQueryProps): Promise<PaginatedResponse<PlacedBid>> {
+  const response = await get<PaginatedResponse<PlacedBid>>(
+    `/auction/profiles/${name}/bids?page=${page}&limit=${limit}`
+  );
+  if (!response) {
+    throw new Error('Could not fetch bids by profile.');
+  }
+  return response;
+}
+
+export async function getWinsByProfile({
+  name,
+  page = 1,
+  limit = 10,
+}: ProfileQueryProps): Promise<PaginatedResponse<Listing>> {
+  const response = await get<PaginatedResponse<Listing>>(
+    `/auction/profiles/${name}/wins?page=${page}&limit=${limit}`
+  );
+  if (!response) {
+    throw new Error('Could not fetch wins by profile.');
+  }
+  return response;
+}
+
+export async function updateProfile({
+  name,
+  data,
+}: ProfileUpdateProps): Promise<SingleResponse<Profile>> {
+  const response = await put<SingleResponse<Profile>>(
+    `/auction/profiles/${name}`,
+    data
+  );
+  if (!response) {
+    throw new Error('Could not update profile.');
+  }
+  return response;
+}
+
+export async function getProfilesBySearchQuery(
+  query: string,
+  { page = 1, limit = 10 }: PaginationProps
+): Promise<PaginatedResponse<Profile>> {
+  const response = await get<PaginatedResponse<Profile>>(
+    `/auction/profiles/search?q=${query}&page=${page}&limit=${limit}`
+  );
+  if (!response) {
+    throw new Error('Could not get profiles.');
+  }
+  return response;
+}

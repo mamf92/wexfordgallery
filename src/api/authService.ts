@@ -16,16 +16,12 @@ export interface RegisterData {
 export interface BaseUser {
   name: string;
   email: string;
-  bio?: string;
-  avatar?: Media;
-  banner?: Media;
+  bio: string | null;
+  avatar: Media;
+  banner: Media;
 }
 interface LoginUser extends BaseUser {
   accessToken: string;
-}
-
-interface RegisteredUser extends BaseUser {
-  bio?: string;
 }
 
 interface LoginResponse {
@@ -34,7 +30,7 @@ interface LoginResponse {
 }
 
 interface RegisterResponse {
-  data: RegisteredUser;
+  data: BaseUser;
   meta: Record<string, unknown>;
 }
 

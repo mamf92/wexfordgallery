@@ -1,4 +1,5 @@
 import { get, post, put, del } from './apiClient.ts';
+import type { BaseUser } from './authService.ts';
 
 /**
  * A media object representing an image or other media asset.
@@ -9,21 +10,10 @@ export interface Media {
 }
 
 /**
- * An author object representing the creator of a post.
- */
-export interface Profile {
-  name: string;
-  email?: string;
-  bio?: string;
-  avatar?: Media;
-  banner?: Media;
-}
-
-/**
  * Seller of a listing, extends a regular profile with wins.
  */
 
-interface Seller extends Profile {
+interface Seller extends BaseUser {
   wins: string[];
 }
 
@@ -31,10 +21,10 @@ interface Seller extends Profile {
  * A bid object representing a bid on a listing.
  */
 
-interface Bid {
+interface BidInListing {
   id: number;
   amount: number;
-  bidder: Profile;
+  bidder: BaseUser;
   created: string; // ISO 8601 date string
 }
 
@@ -44,7 +34,7 @@ interface Bid {
 export interface Listing {
   id: number;
   title: string;
-  description: string;
+  description: string | null;
   tags: string[];
   media: Media[];
   created: string; // ISO 8601 date string
@@ -53,9 +43,9 @@ export interface Listing {
   _count: { bids: number };
 }
 
-interface FullListing extends Listing {
+export interface FullListing extends Listing {
   seller?: Seller;
-  bids?: Bid[];
+  bids?: BidInListing[];
 }
 
 /** Pagination metadata for paginated API responses. */
@@ -95,7 +85,7 @@ export interface PaginationProps {
  */
 export interface CreateListingFormData {
   title: string;
-  description?: string;
+  description?: string | null;
   tags?: string[];
   media?: Media[];
   endsAt: string; // ISO 8601 date string
@@ -178,7 +168,7 @@ export async function getActiveListingsWithTags(
   { page = 1, limit = 10 }: PaginationProps
 ): Promise<PaginatedResponse<Listing>> {
   const response = await get<PaginatedResponse<Listing>>(
-    `/auction/listings?_${tag}&_active=true&page=${page}&limit=${limit}`,
+    `/auction/listings?_tag=${tag}&_active=true&page=${page}&limit=${limit}`,
     false
   );
   if (!response) {

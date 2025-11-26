@@ -134,7 +134,6 @@ export const get = <T = unknown>(endpoint: string, requiresAuth = true) =>
 
 /**
  * Send a POST request.
- * example:
  */
 export const post = <T = unknown>(
   endpoint: string,

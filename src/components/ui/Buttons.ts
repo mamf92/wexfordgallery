@@ -32,7 +32,7 @@ const BUTTON_VARIANT_CLASSES: Record<ButtonVariant, string> = {
   tertiary: 'border-wexham-dark hover:border-b-1 focus:border-b-1',
 };
 
-const BASE = 'inline-block font-heading hover:cursor-pointer';
+const BASE = 'inline-flex font-heading hover:cursor-pointer gap-2 text-center';
 
 export function buttonClassNames(
   size: ButtonSize = 'medium',

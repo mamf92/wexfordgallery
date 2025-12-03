@@ -1,5 +1,6 @@
 import type { FullListing, BidInListing } from '../../api/listingsService';
 import { Button } from './Buttons';
+import { customScrollbar } from './CustomScrollbar';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -23,7 +24,7 @@ export function renderListingCard(
 
   const listingCard = document.createElement('article');
   listingCard.className =
-    'listing-card flex flex-col border-wexham-dark border-t-1 border-b-1 h-full w-full bg-wexham-white';
+    'listing-card relative flex flex-col border-wexham-dark border-t-1 border-b-1 h-min w-full bg-wexham-white';
 
   const mediaSection = renderMediaSection(listing);
   if (mediaSection) {
@@ -44,7 +45,7 @@ export function renderListingCard(
  * Renders the media section of the listing card.
  */
 
-function renderMediaSection(listing: FullListing): HTMLElement | null {
+export function renderMediaSection(listing: FullListing): HTMLElement | null {
   if (!listing.media || listing.media.length === 0) {
     return null;
   }
@@ -52,7 +53,7 @@ function renderMediaSection(listing: FullListing): HTMLElement | null {
   if (listing.media && listing.media.length === 1) {
     const mediaLink = document.createElement('a');
     mediaLink.className =
-      'flex border-wexham-dark border-b-1 focus:border-[0.4rem] focus:border-wexham-blue hover:cursor-pointer';
+      'flex border-wexham-dark border-b-1 focus:border-[0.4rem] focus:border-wexham-blue hover:cursor-pointer h-80';
     mediaLink.href = BASE + `listing/${listing.id}`;
     mediaLink.tabIndex = 0;
     mediaLink.setAttribute('aria-label', `View post titled ${listing.title}`);
@@ -67,20 +68,43 @@ function renderMediaSection(listing: FullListing): HTMLElement | null {
 
   if (listing.media && listing.media.length > 1) {
     const mediaSlider = document.createElement('div');
-    mediaSlider.className =
-      'flex overflow-x-auto scrollbar-hide border-wexham-dark border-b-1';
+    mediaSlider.className = `flex overflow-x-scroll snap-x snap-mandatory ${customScrollbar} border-wexham-dark border-b-1 w-full h-80 gap-2`;
     listing.media.forEach((mediaItem) => {
       const mediaLink = document.createElement('a');
       mediaLink.className =
-        'flex border-wexham-dark border-b-1 focus:border-[0.4rem] focus:border-wexham-blue hover:cursor-pointer';
+        'flex min-w-[90%] snap-center pt-2 border-wexham-dark border-b-1 focus:border-[0.4rem] focus:border-wexham-blue hover:cursor-pointer';
       mediaLink.href = BASE + `listing/${listing.id}`;
       mediaLink.tabIndex = 0;
       mediaLink.setAttribute('aria-label', `View post titled ${listing.title}`);
+      const scrollButtons = document.createElement('div');
+      scrollButtons.className =
+        'flex max-lg:hidden gap-2 w-full justify-between absolute top-69 left-1/2 transform -translate-x-1/2';
+      const leftButton = Button({
+        label: '‹ Previous',
+        variant: 'tertiary',
+        size: 'small',
+        onClick: () => {
+          mediaSlider.scrollBy({ left: -300, behavior: 'smooth' });
+        },
+      });
+      leftButton.className += ' bg-wexham-white/70';
+      const rightButton = Button({
+        label: 'Next ›',
+        variant: 'tertiary',
+        size: 'small',
+        onClick: () => {
+          mediaSlider.scrollBy({ left: 300, behavior: 'smooth' });
+        },
+      });
+      rightButton.className += ' bg-wexham-white/70';
+      scrollButtons.appendChild(leftButton);
+      scrollButtons.appendChild(rightButton);
+      mediaSlider.appendChild(scrollButtons);
 
       const img = document.createElement('img');
       img.src = mediaItem.url;
       img.alt = mediaItem.alt || listing.title;
-      img.className = 'object-cover hover:cursor-pointer';
+      img.className = 'object-cover w-full hover:cursor-pointer';
       mediaLink.appendChild(img);
       mediaSlider.appendChild(mediaLink);
     });
@@ -152,7 +176,7 @@ function renderListingMeta(listing: FullListing): HTMLElement {
  * Render the listing title.
  */
 
-function renderListingTitle(listing: FullListing): HTMLElement {
+export function renderListingTitle(listing: FullListing): HTMLElement {
   const title = document.createElement('h3');
   title.className = 'font-heading font-semibold text-2xl';
   title.textContent = listing.title;

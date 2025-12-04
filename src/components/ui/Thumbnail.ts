@@ -1,7 +1,12 @@
 import { renderMediaSection } from './ListingCard';
-import type { FullListing } from '../../api/listingsService';
+import type { FullListing, Listing } from '../../api/listingsService';
 
-export function renderThumbnail(listing: FullListing): HTMLElement | null {
+export function renderThumbnail(
+  listing: FullListing,
+  options?: {
+    withDescription?: boolean;
+  }
+): HTMLElement | null {
   if (!listing) {
     console.error('No listing data provided to renderListingCard.');
     return null;
@@ -17,6 +22,11 @@ export function renderThumbnail(listing: FullListing): HTMLElement | null {
   const title = renderThumbnailTitle(listing);
   title.className += ' text-md p-2';
   thumbnailContainer.appendChild(title);
+  if (options?.withDescription && listing.description) {
+    const description = renderDescription(listing);
+    description.className += ' px-2 pb-2';
+    thumbnailContainer.appendChild(description);
+  }
   return thumbnailContainer;
 }
 
@@ -30,4 +40,11 @@ function renderThumbnailTitle(listing: FullListing): HTMLElement {
   title.className = 'font-heading font-semibold text-md p-2';
   title.textContent = listing.title;
   return title;
+}
+
+function renderDescription(listing: Listing): HTMLElement {
+  const body = document.createElement('p');
+  body.className = 'font-body text-xs';
+  body.textContent = listing.description;
+  return body;
 }

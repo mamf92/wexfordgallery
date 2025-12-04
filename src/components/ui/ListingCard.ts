@@ -1,4 +1,8 @@
-import type { FullListing, BidInListing } from '../../api/listingsService';
+import type {
+  FullListing,
+  BidInListing,
+  Listing,
+} from '../../api/listingsService';
 import { Button } from './Buttons';
 import { customScrollbar } from './CustomScrollbar';
 
@@ -15,6 +19,7 @@ export function renderListingCard(
     onBidButtonPress?: (listingId: string) => void;
     onUnauthenticatedBidAttempt?: () => void;
     bidPreviouslyPlaced?: boolean;
+    withDescription?: boolean;
   }
 ): HTMLElement | null {
   if (!listing) {
@@ -72,7 +77,7 @@ export function renderMediaSection(listing: FullListing): HTMLElement | null {
     listing.media.forEach((mediaItem) => {
       const mediaLink = document.createElement('a');
       mediaLink.className =
-        'flex min-w-[90%] snap-center pt-2 border-wexham-dark border-b-1 focus:border-[0.4rem] focus:border-wexham-blue hover:cursor-pointer';
+        'flex min-w-[90%] snap-center border-wexham-dark border-b-1 focus:border-[0.4rem] focus:border-wexham-blue hover:cursor-pointer';
       mediaLink.href = BASE + `listing/${listing.id}`;
       mediaLink.tabIndex = 0;
       mediaLink.setAttribute('aria-label', `View post titled ${listing.title}`);
@@ -122,7 +127,9 @@ function renderContentSection(
   options?: {
     isAuthenticated?: boolean;
     onBidButtonPress?: (listingId: string) => void;
+    onUnauthenticatedBidAttempt?: () => void;
     bidPreviouslyPlaced?: boolean;
+    withDescription?: boolean;
   }
 ): HTMLElement {
   const content = document.createElement('div');
@@ -136,12 +143,19 @@ function renderContentSection(
   const listingTitle = renderListingTitle(listing);
   content.appendChild(listingTitle);
 
+  if (options?.withDescription && listing.description) {
+    const description = renderDescription(listing);
+    content.appendChild(description);
+  }
+
   const listingLiveInfo = renderListingLiveInfo(listing);
   content.appendChild(listingLiveInfo);
 
   const bidButton = renderBidButton(listing, {
     onBidButtonPress: options?.onBidButtonPress,
+    onUnauthenticatedBidAttempt: options?.onUnauthenticatedBidAttempt,
     bidPreviouslyPlaced: options?.bidPreviouslyPlaced,
+    isAuthenticated: options?.isAuthenticated,
   });
   content.appendChild(bidButton);
 
@@ -176,11 +190,21 @@ function renderListingMeta(listing: FullListing): HTMLElement {
  * Render the listing title.
  */
 
-export function renderListingTitle(listing: FullListing): HTMLElement {
+function renderListingTitle(listing: FullListing): HTMLElement {
   const title = document.createElement('h3');
   title.className = 'font-heading font-semibold text-2xl';
   title.textContent = listing.title;
   return title;
+}
+
+/**
+ * Renders the listing description.
+ */
+function renderDescription(listing: Listing): HTMLElement {
+  const body = document.createElement('p');
+  body.className = 'font-body text-xs';
+  body.textContent = listing.description;
+  return body;
 }
 
 /**
@@ -189,10 +213,10 @@ export function renderListingTitle(listing: FullListing): HTMLElement {
 
 function renderListingLiveInfo(listing: FullListing): HTMLElement {
   const liveInfo = document.createElement('div');
-  liveInfo.className = 'flex flex-col gap-2 items-center';
+  liveInfo.className = 'flex flex-col gap-2 items-center py-2';
   const highestBidContainer = document.createElement('div');
   highestBidContainer.className =
-    'flex justify-between w-full border-t-1 border-b-1 border-wexham-dark py-1';
+    'flex justify-between w-full border-t-1 border-wexham-dark py-2';
   const highestBid = document.createElement('span');
   highestBid.className = 'font-body text-sm';
   highestBid.textContent = `Highest Bid: $${listing.bids.at(-1)?.amount || '0'}`;
@@ -200,7 +224,7 @@ function renderListingLiveInfo(listing: FullListing): HTMLElement {
 
   const bidRefreshButton = Button({
     label: 'Refresh',
-    variant: 'tertiary',
+    variant: 'secondary',
     size: 'xsmall',
     onClick: () => {
       window.location.reload();
@@ -211,7 +235,7 @@ function renderListingLiveInfo(listing: FullListing): HTMLElement {
 
   const timeRemainingContainer = document.createElement('div');
   timeRemainingContainer.className =
-    'flex w-full border-t-1 border-b-1 border-wexham-dark py-1';
+    'flex w-full border-b-1 border-wexham-dark py-1 justify-center';
   const timeRemaining = document.createElement('span');
   timeRemaining.className = 'font-body text-sm';
   timeRemaining.textContent = formatTimeRemaining(listing.endsAt);
@@ -228,7 +252,9 @@ function renderBidButton(
   listing: FullListing,
   options?: {
     onBidButtonPress?: (listingId: string) => void;
+    onUnauthenticatedBidAttempt?: () => void;
     bidPreviouslyPlaced?: boolean;
+    isAuthenticated?: boolean;
   }
 ): HTMLElement {
   const bidButtonContainer = document.createElement('div');
@@ -238,8 +264,13 @@ function renderBidButton(
     variant: 'primary',
     size: 'medium',
     onClick: () => {
-      if (options?.onBidButtonPress) {
+      if (options?.isAuthenticated && options?.onBidButtonPress && listing.id) {
         options.onBidButtonPress(listing.id);
+      } else if (
+        !options?.isAuthenticated &&
+        options?.onUnauthenticatedBidAttempt
+      ) {
+        options.onUnauthenticatedBidAttempt();
       }
     },
   });

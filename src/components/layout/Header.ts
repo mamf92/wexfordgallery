@@ -12,23 +12,59 @@ export interface HeaderOptions {
   onLogout: () => void;
 }
 
-function createLogo(): HTMLElement {
-  const logo = document.createElement('a');
-  logo.href = BASE;
-  logo.tabIndex = 0;
-  logo.className = 'col-1 font-heading text-3xl text-wexham-dark no-underline';
-  logo.textContent = 'W';
-  return logo;
-}
-
 /**
  * Creates the main header component with navigation and profile menu.
  */
 export function Header(options: HeaderOptions): HTMLElement {
-  const { isAuthenticated, userName, currentPage, onLogout } = options;
+  const headerContainer = document.createElement('header');
+  headerContainer.innerHTML = '';
+
+  const renderAppropriateHeader = () => {
+    headerContainer.innerHTML = '';
+    if (window.innerWidth < 768) {
+      headerContainer.appendChild(renderMobileHeader(options));
+    } else {
+      headerContainer.appendChild(renderDesktopHeader(options));
+    }
+  };
+
+  renderAppropriateHeader();
+
+  window.addEventListener('resize', renderAppropriateHeader);
+
+  return headerContainer;
+}
+
+function renderMobileHeader(options: HeaderOptions): HTMLElement {
+  const { isAuthenticated, userName, onLogout } = options;
   const headerContent = document.createElement('div');
   headerContent.className =
-    'grid grid-cols-[1fr_0.5fr_3fr_0.5fr_1fr] items-center justify-items-center min-w-full max-w-full height-4.5rem py-4 pr-3 pl-4 bg-wexham-white relative';
+    'relative flex items-center justify-between min-w-full max-w-full height-4.5rem py-4 pr-3 pl-4 bg-wexham-white';
+
+  const logo = createLogo();
+  headerContent.appendChild(logo);
+
+  const profileButton = renderProfileButton(
+    isAuthenticated,
+    userName,
+    onLogout,
+    headerContent
+  );
+  headerContent.appendChild(profileButton);
+
+  // You can add a hamburger menu for navigation later
+  // const hamburger = createHamburgerMenu(currentPage, headerContent);
+  // headerContent.appendChild(hamburger);
+
+  return headerContent;
+}
+
+function renderDesktopHeader(options: HeaderOptions): HTMLElement {
+  const { isAuthenticated, userName, currentPage, onLogout } = options;
+
+  const headerContent = document.createElement('div');
+  headerContent.className =
+    'relative grid grid-cols-3 md:grid-cols-[1fr_0.5fr_3fr_0.5fr_1fr] items-center justify-items-center min-w-full max-w-full height-4.5rem py-4 pr-3 pl-4 bg-wexham-white';
 
   const logo = createLogo();
   headerContent.appendChild(logo);
@@ -50,6 +86,15 @@ export function Header(options: HeaderOptions): HTMLElement {
   return headerContent;
 }
 
+function createLogo(): HTMLElement {
+  const logo = document.createElement('a');
+  logo.href = BASE;
+  logo.tabIndex = 0;
+  logo.className = 'col-1 font-heading text-3xl text-wexham-dark no-underline';
+  logo.textContent = 'W';
+  return logo;
+}
+
 type NavItem = {
   label: string;
   href: string;
@@ -65,7 +110,7 @@ const NAV_ITEMS: NavItem[] = [
 
 function renderNav(currentPage: HeaderProps): HTMLElement {
   const nav = document.createElement('nav');
-  nav.className = 'col-3 flex w-full justify-around xl:justify-between';
+  nav.className = 'flex col-3 w-full justify-around xl:justify-between';
 
   NAV_ITEMS.forEach(({ label, href, page }) => {
     const link = LinkButton({

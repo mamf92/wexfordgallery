@@ -29,7 +29,7 @@ export function renderListingCardWithEditActions(
   const contentSection = renderContentSection(listing);
   listingCard.appendChild(contentSection);
 
-  const editActions = renderEditActions(listing, listingCard, {
+  const editActions = renderEditActions(listing, {
     onEdit: options?.onEdit,
     onView: options?.onView,
     onDelete: options?.onDelete,
@@ -86,7 +86,6 @@ function renderDescription(listing: Listing): HTMLElement {
 
 function renderEditActions(
   listing: Listing,
-  postCard: HTMLElement,
   options?: {
     onEdit?: (listingId: string) => void;
     onView?: (listingId: string) => void;

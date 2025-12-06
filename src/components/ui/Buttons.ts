@@ -20,16 +20,16 @@ interface LinkButtonProps extends ButtonBaseProps {
 const SIZE_CLASSES: Record<ButtonSize, string> = {
   xsmall: 'text-xs py-1 px-3',
   small: 'text-md py-1 px-5',
-  medium: 'text-lg py-1 px-5',
-  large: 'text-lg py-3 px-6',
+  medium: 'text-lg py-1 px-5 m-t-1 m-b-3',
+  large: 'text-lg py-3 px-6 m-t-1 m-b-3',
 };
 
 const BUTTON_VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    'border-wexham-dark text-wexham-dark border-t-1 border-b-1 md:border-t-2 md:border-b-2 hover:border-t-3 hover:border-b-3 focus:border-t-3 focus:border-b-3',
+    'border-wexham-dark text-wexham-dark border-t-1 border-b-1 md:border-t-2 md:border-b-2 hover:border-wexham-blue hover:text-wexham-blue',
   secondary:
-    'border-wexham-dark text-wexham-dark border-b-1 md:border-b-2 hover:border-b-3 focus:border-b-3',
-  tertiary: 'border-wexham-dark hover:border-b-1 focus:border-b-1',
+    'border-wexham-dark text-wexham-dark border-b-1 md:border-b-2 hover:border-wexham-blue hover:text-wexham-blue',
+  tertiary: 'border-wexham-dark hover:text-wexham-blue',
 };
 
 const BASE = 'inline-flex font-heading hover:cursor-pointer gap-2 text-center';

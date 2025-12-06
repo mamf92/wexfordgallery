@@ -21,8 +21,8 @@ interface Seller extends BaseUser {
  * A bid object representing a bid on a listing.
  */
 
-interface BidInListing {
-  id: number;
+export interface BidInListing {
+  id: string;
   amount: number;
   bidder: BaseUser;
   created: string; // ISO 8601 date string
@@ -32,13 +32,13 @@ interface BidInListing {
  * A listing object representing an item up for auction.
  */
 export interface Listing {
-  id: number;
+  id: string;
   title: string;
   description: string | null;
   tags: string[];
   media: Media[];
   created: string; // ISO 8601 date string
-  updated: string; // ISO 8601 date string
+  updated: string; // ISO 8601 time and date string
   endsAt: string; // ISO 8601 date string
   _count: { bids: number };
 }
@@ -47,8 +47,8 @@ export interface Listing {
  * A full listing object including seller and bids.
  */
 export interface FullListing extends Listing {
-  seller?: Seller;
-  bids?: BidInListing[];
+  seller: Seller;
+  bids: BidInListing[];
 }
 
 /** Pagination metadata for paginated API responses. */

@@ -31,4 +31,70 @@
   --color-wexham-dark: #011526;
   --color-wexham-blue: #395873;
   --color-wexham-light: #a9c6d9;
+  --color-wexham-red: #8f2b16;
+  --color-wexham-green: #327d36;
+
+  --background-image-aurora-silk:
+    radial-gradient(
+      ellipse 80% 60% at 70% 20%,
+      rgba(169, 198, 217, 0.85),
+      transparent 68%
+    ),
+    radial-gradient(
+      ellipse 70% 60% at 20% 80%,
+      rgba(107, 143, 163, 0.75),
+      transparent 68%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 60% 65%,
+      rgba(57, 88, 115, 0.98),
+      transparent 68%
+    ),
+    radial-gradient(
+      ellipse 65% 40% at 50% 60%,
+      rgba(42, 67, 89, 0.3),
+      transparent 68%
+    ),
+    linear-gradient(180deg, #1a2a3a 0%, #0d0d0d 100%);
+}
+
+.loader {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 3px solid #011526;
+  border-right: 3px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader--sm {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-top: 2px solid #011526;
+  border-right: 2px solid transparent;
+}
+
+.loader--lg {
+  width: 3rem;
+  height: 3rem;
+  border-top: 4px solid #011526;
+  border-right: 4px solid transparent;
+}
+
+.loader--xl {
+  width: 7rem;
+  height: 7rem;
+  border-top: 5px solid #011526;
+  border-right: 5px solid transparent;
 }

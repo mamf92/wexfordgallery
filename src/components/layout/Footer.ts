@@ -17,21 +17,21 @@ function renderFooterContent() {
   socials.className += ' md:col-2 md:row-1 lg:col-3 lg:row-1';
   const contactInfo = createContactInfo();
   contactInfo.className += ' md:col-1 md:row-2 lg:col-1 lg:row-1';
-  const navLinks = createNavLinks();
-  navLinks.className += ' md:col-1 md:row-1 lg:col-2 lg:row-1';
+  const links = createLinks();
+  links.className += ' md:col-1 md:row-1 lg:col-2 lg:row-1';
   const copyright = createCopyright();
   copyright.className +=
     ' md:col-2 md:row-3 md:col-span-3 lg:row-2 col-span-3 ';
   content.appendChild(socials);
   content.appendChild(contactInfo);
-  content.appendChild(navLinks);
+  content.appendChild(links);
   content.appendChild(copyright);
   return content;
 }
 
 function createSocials() {
   const socialsContainer = document.createElement('div');
-  socialsContainer.className = 'flex flex-col items-start gap-6 lg:gap-2';
+  socialsContainer.className = 'flex flex-col items-start gap-6';
   const socialLinks = createSocialLinks();
   socialsContainer.appendChild(socialLinks);
   const newsletterForm = createNewsletterForm();
@@ -62,9 +62,9 @@ const SOCIAL_LINKS: SocialLink[] = [
 
 function createSocialLinks() {
   const socialLinksContainer = document.createElement('div');
-  socialLinksContainer.className = 'flex flex-col items-start';
+  socialLinksContainer.className = 'flex flex-col items-start gap-2';
   const header = document.createElement('h4');
-  header.className = 'font-body text-wexham-dark text-sm';
+  header.className = 'font-body text-wexham-dark font-semibold text-md';
   header.textContent = 'Follow us:';
   socialLinksContainer.appendChild(header);
   const linksContainer = document.createElement('div');
@@ -87,7 +87,8 @@ function createSocialLinks() {
 function createNewsletterForm() {
   const form = document.createElement('div');
   const newsLetterHeading = document.createElement('h4');
-  newsLetterHeading.className = 'font-heading text-wexham-dark text-md';
+  newsLetterHeading.className =
+    'font-heading text-wexham-dark font-semibold text-md';
   newsLetterHeading.textContent = 'Sign up to our Newsletter:';
   form.appendChild(newsLetterHeading);
   // TODO: Implement actual newsletter functionality
@@ -103,34 +104,43 @@ function createContactInfo() {
   heading.className = 'font-heading text-wexham-dark text-4xl';
   heading.textContent = 'Wexford Gallery';
   contactInfoContainer.appendChild(heading);
+  const addressContainer = document.createElement('div');
+  addressContainer.className = 'flex flex-col gap-2';
   const addressHeading = document.createElement('p');
-  addressHeading.className = 'font-heading text-wexham-dark text-md';
+  addressHeading.className =
+    'font-heading text-wexham-dark font-semibold text-md';
   addressHeading.textContent = 'Address:';
-  contactInfoContainer.appendChild(addressHeading);
+  addressContainer.appendChild(addressHeading);
   const addressDetails = document.createElement('p');
   addressDetails.className = 'font-body text-wexham-dark text-sm';
   addressDetails.textContent = '50 Wexford Ave, Hull HU9 5EJ, UK';
-  contactInfoContainer.appendChild(addressDetails);
+  addressContainer.appendChild(addressDetails);
+  contactInfoContainer.appendChild(addressContainer);
 
+  const emailContainer = document.createElement('div');
+  emailContainer.className = 'flex flex-col gap-2';
   const emailHeading = document.createElement('p');
-  emailHeading.className = 'font-heading text-wexham-dark text-md';
+  emailHeading.className =
+    'font-heading text-wexham-dark font-semibold text-md';
   emailHeading.textContent = 'Contact:';
-  contactInfoContainer.appendChild(emailHeading);
+  emailContainer.appendChild(emailHeading);
   const emailDetails = document.createElement('p');
   emailDetails.className = 'font-body text-wexham-dark text-sm';
   emailDetails.textContent = 'inquiries@wexfordgallery.com';
-  contactInfoContainer.appendChild(emailDetails);
+  emailContainer.appendChild(emailDetails);
+  contactInfoContainer.appendChild(emailContainer);
   return contactInfoContainer;
 }
 
-function createNavLinks() {
+function createLinks() {
   const linksContainer = document.createElement('div');
-  linksContainer.className = 'flex gap-6';
+  linksContainer.className =
+    'flex w-full justify-around lg:justify-start lg:gap-12';
   const navLinksContainer = document.createElement('div');
   navLinksContainer.className = 'flex flex-col gap-2';
   const navLinksHeading = document.createElement('h4');
   navLinksHeading.className =
-    'font-heading text-wexham-dark font-semibold text-sm';
+    'font-heading text-wexham-dark font-semibold text-md';
   navLinksHeading.textContent = 'Quick Links:';
   navLinksContainer.appendChild(navLinksHeading);
   const links = ['Home', 'Explore', 'Popular', 'Profile'];
@@ -147,7 +157,7 @@ function createNavLinks() {
   extraLinksContainer.className = 'flex flex-col gap-2';
   const extraLinksHeading = document.createElement('h4');
   extraLinksHeading.className =
-    'font-heading text-wexham-dark font-semibold text-sm';
+    'font-heading text-wexham-dark font-semibold text-md';
   extraLinksHeading.textContent = 'More:';
   extraLinksContainer.appendChild(extraLinksHeading);
   const extraLinks = ['Privacy Policy', 'Terms of Service', 'Help Center'];

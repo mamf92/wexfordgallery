@@ -11,16 +11,16 @@ type RouteHandler = () => RouteResult;
 export class Router {
   private routes: Record<string, RouteHandler>;
   private outlet: HTMLElement;
-  //   private onRouteChange?: (path: string) => void;
+  private onRouteChange?: (path: string) => void;
 
   constructor(
     routes: Record<string, RouteHandler>,
-    outlet: HTMLElement
-    // onRouteChange?: (path: string) => void
+    outlet: HTMLElement,
+    onRouteChange?: (path: string) => void
   ) {
     this.routes = routes;
     this.outlet = outlet;
-    // this.onRouteChange = onRouteChange;
+    this.onRouteChange = onRouteChange;
     window.addEventListener('popstate', () => this.resolveRoute());
   }
 
@@ -35,7 +35,8 @@ export class Router {
     const path = rawPath.startsWith(BASE)
       ? rawPath.slice(BASE.length - 1) || '/'
       : rawPath;
-    //     // this.onRouteChange?.(path);
+
+    this.onRouteChange?.(rawPath);
     const view = this.routes[path] || this.notFoundView;
     const result = view();
     this.render(result);

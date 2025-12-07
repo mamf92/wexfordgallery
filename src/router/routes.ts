@@ -1,16 +1,12 @@
 import { renderHomePage } from '../pages/HomePage';
-// import { renderRegistrationPage } from '../pages/RegistrationPage';
+import { renderTestPage } from '../pages/TestPage';
 import { renderLoginPage } from '../pages/LoginPage';
-// import { renderExplorePage } from '../pages/ExplorePage';
-// import { renderMyProfilePage } from '../pages/MyProfilePage';
-// import { renderCreateListingPage } from '../pages/CreateListingPage';
-// import { renderSingleItemPage } from '../pages/SingleItemPage';
 
 export const routes = {
   '/': renderHomePage,
-  // '/register': renderRegistrationPage,
+  '/test': renderTestPage,
   '/login': renderLoginPage,
-  // '/explore': renderExplorePage,
-  // '/myprofile': renderMyProfilePage,
-  // '/create': renderCreateListingPage,
+  '/explore': () => '<div>Explore page (todo)</div>',
+  '/popular': () => '<div>Popular page (todo)</div>',
+  '/profile': () => '<div>Profile page (todo)</div>',
 };

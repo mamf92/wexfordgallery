@@ -1,10 +1,7 @@
 import type { FullListing } from '../api/listingsService';
-import type { Profile } from '../api/profilesService';
-import { renderListingCard } from '../components/ui/ListingCard';
-import { renderThumbnail } from '../components/ui/Thumbnail';
-import { renderListingCardWithEditActions } from '../components/ui/ThumbnailWithEditActions';
-import { renderProfileCard } from '../components/ui/ProfileCard';
-import { renderBidForm } from '../components/forms/BidForm';
+import type { ListingCard } from '../components/ui/ListingCard';
+// import type { Profile } from '../api/profilesService';
+import { renderBrowseSection } from '../components/sections/BrowseSection';
 /**
  * Renders the test page with various UI component demonstrations.
  */
@@ -13,102 +10,34 @@ export function renderTestPage() {
   const testViewContainer = document.createElement('section');
   testViewContainer.className =
     'flex flex-col items-center justify-center w-full gap-4 bg-aurora-silk py-8';
-
-  const profileCard = renderProfileCard(exampleProfile, (profileName) => {
-    console.log(`Edit profile clicked for: ${profileName}`);
-  });
-  if (profileCard) {
-    testViewContainer.appendChild(profileCard);
-  }
-
-  const listingGrid = document.createElement('div');
-  listingGrid.className =
-    'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full px-4';
-  testViewContainer.appendChild(listingGrid);
-
-  const listingCardWithEdit = renderListingCardWithEditActions(exampleListing, {
-    onEdit: () => {
-      console.log('Edit action triggered');
-    },
-    onView: () => {
-      console.log('View action triggered');
-    },
-    onDelete: () =>
-      Promise.resolve().then(() => {
-        console.log('Delete action triggered');
-      }),
-  });
-
-  if (listingCardWithEdit) {
-    listingGrid.appendChild(listingCardWithEdit);
-  }
-
-  const thumbnail = renderThumbnail(exampleListing);
-  if (thumbnail) {
-    listingGrid.appendChild(thumbnail);
-  }
-  const thumbnail2 = renderThumbnail(exampleListing2, {
-    withDescription: true,
-  });
-  if (thumbnail2) {
-    listingGrid.appendChild(thumbnail2);
-  }
-  const listingCard = renderListingCard(exampleListing, {
-    bidPreviouslyPlaced: true,
-    isAuthenticated: true,
-    withDescription: true,
-    onBidButtonPress: () => {
-      const bidButton = document.getElementById('bid-button-container');
-      if (bidButton)
-        bidButton.replaceChildren(
-          renderBidForm((event: SubmitEvent) => {
-            event.preventDefault();
-            const form = event.target as HTMLFormElement;
-            const formData = new FormData(form);
-            const bidAmount = formData.get('bid-amount') as string;
-            console.log(`Bid placed: ${bidAmount} crdts`);
-          }, '500')
-        );
-    },
-  });
-  if (listingCard) {
-    listingGrid.appendChild(listingCard);
-  }
-  const listingCard2 = renderListingCard(exampleListing);
-  if (listingCard2) {
-    listingGrid.appendChild(listingCard2);
-  }
-  const listingCard3 = renderListingCard(exampleListing2);
-  if (listingCard3) {
-    listingGrid.appendChild(listingCard3);
-  }
-  const listingCard4 = renderListingCard(exampleListing);
-  if (listingCard4) {
-    listingGrid.appendChild(listingCard4);
-  }
+  const browseSection = renderBrowseSection(
+    () => {},
+    authenticatedListingCards
+  );
+  testViewContainer.appendChild(browseSection);
 
   return testViewContainer;
 }
 
 //Example listings, profiles data etc.
-const exampleProfile: Profile = {
-  name: 'catsarecute',
-  email: 'catsarecute@stud.noroff.no',
-  bio: 'This is my first bio entry.',
-  avatar: {
-    url: 'https://images.unsplash.com/photo-1579547945413-497e1b99dac0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&h=400&w=400',
-    alt: 'A blurry multi-colored rainbow background',
-  },
-  banner: {
-    url: 'https://img.freepik.com/free-photo/close-up-kittens-exploring-nature_23-2150782397.jpg',
-    alt: 'Two fluffy kittens with blue eyes sitting close together on a tree log, illuminated by warm golden sunlight.',
-  },
-  credits: 1000,
-  _count: {
-    listings: 2,
-    wins: 0,
-  },
-};
+// const exampleProfile: Profile = {
+//   name: 'catsarecute',
+//   email: 'catsarecute@stud.noroff.no',
+//   bio: 'This is my first bio entry.',
+//   avatar: {
+//     url: 'https://images.unsplash.com/photo-1579547945413-497e1b99dac0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&h=400&w=400',
+//     alt: 'A blurry multi-colored rainbow background',
+//   },
+//   banner: {
+//     url: 'https://img.freepik.com/free-photo/close-up-kittens-exploring-nature_23-2150782397.jpg',
+//     alt: 'Two fluffy kittens with blue eyes sitting close together on a tree log, illuminated by warm golden sunlight.',
+//   },
+//   credits: 1000,
+//   _count: {
+//     listings: 2,
+//     wins: 0,
+//   },
+// };
 
 const exampleListing: FullListing = {
   id: '13-39423d9b-8da6-468e-9758-46b68825f564',
@@ -243,3 +172,124 @@ const exampleListing2: FullListing = {
     },
   ],
 };
+
+const pokemonCardsListing: FullListing = {
+  ...exampleListing,
+  id: 'listing-pokemon-cards',
+  title: 'Rare Pokémon Card Set',
+  description: 'Holo and first editions in near-mint condition.',
+  tags: ['pokemon', 'cards', 'collectibles'],
+  media: [
+    {
+      url: 'https://dddprint.no/wp-content/uploads/2025/12/27ffd64b-8d3d-49b2-ae88-44f2b61c3eac.png',
+      alt: 'Rare Pokémon cards',
+    },
+  ],
+  bids: [],
+};
+
+const oldTypewriterListing: FullListing = {
+  ...exampleListing,
+  id: 'listing-old-typewriter',
+  title: 'Vintage Typewriter',
+  description: 'Mechanical typewriter with original keys, fully functional.',
+  tags: ['vintage', 'typewriter', 'mechanical'],
+  media: [
+    {
+      url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MEK_II-371.jpg/2560px-MEK_II-371.jpg',
+      alt: 'Old mechanical typewriter',
+    },
+  ],
+  bids: [],
+};
+
+const diamondRingListing: FullListing = {
+  ...exampleListing,
+  id: 'listing-diamond-ring',
+  title: 'Diamond Ring',
+  description: 'Brilliant-cut diamond ring with elegant band.',
+  tags: ['jewelry', 'diamond', 'ring'],
+  media: [
+    {
+      url: 'https://kinclimg8.bluestone.com/f_jpg,c_scale,w_828,q_80,b_rgb:f0f0f0/giproduct/BISK0368R03_YAA18DIG4XXXXXXXX_ABCD00-PICS-00001-1024-66176.png',
+      alt: 'Diamond ring',
+    },
+  ],
+  bids: [],
+};
+
+const nordicSweaterListing: FullListing = {
+  ...exampleListing,
+  id: 'listing-nordic-sweater',
+  title: 'Nordic Wool Sweater',
+  description: 'Hand-knit Nordic sweater, warm and soft.',
+  tags: ['fashion', 'wool', 'sweater'],
+  media: [
+    {
+      url: 'https://shop.rmg.co.uk/cdn/shop/files/Nordic-Sweater-front.jpg?v=1727102377&width=480',
+      alt: 'Nordic wool sweater',
+    },
+  ],
+  bids: [],
+};
+
+const butterflyDuckListing: FullListing = {
+  ...exampleListing,
+  id: 'listing-butterfly-duck',
+  title: 'Butterfly Wing Duck',
+  description: 'Whimsical rubber duck with butterfly wings.',
+  tags: ['toy', 'duck', 'novelty'],
+  media: [
+    {
+      url: 'https://gifts.chesterzoo.org/cdn/shop/files/butterflyduck.jpg?v=1722335909',
+      alt: 'Rubber duck with butterfly wings',
+    },
+  ],
+  bids: [],
+};
+
+export const authenticatedListingCards: ListingCard[] = [
+  {
+    listing: exampleListing,
+    listOptions: {
+      isAuthenticated: true,
+      withDescription: false,
+      bidPreviouslyPlaced: true,
+    },
+  },
+  {
+    listing: pokemonCardsListing,
+    listOptions: { isAuthenticated: true, withDescription: false },
+  },
+  {
+    listing: diamondRingListing,
+    listOptions: { isAuthenticated: true },
+  },
+  {
+    listing: nordicSweaterListing,
+    listOptions: { isAuthenticated: true },
+  },
+];
+
+export const guestListingCards: ListingCard[] = [
+  {
+    listing: exampleListing2,
+    listOptions: {
+      withDescription: false,
+      onUnauthenticatedBidAttempt: () => console.log('Please sign in to bid.'),
+    },
+  },
+  {
+    listing: oldTypewriterListing,
+    listOptions: {
+      onUnauthenticatedBidAttempt: () => console.log('Please sign in to bid.'),
+    },
+  },
+  {
+    listing: butterflyDuckListing,
+    listOptions: {
+      withDescription: false,
+      onUnauthenticatedBidAttempt: () => console.log('Please sign in to bid.'),
+    },
+  },
+];

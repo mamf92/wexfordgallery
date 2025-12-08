@@ -2,15 +2,18 @@ interface InputFieldProps {
   id: string;
   name: string;
   label: string;
-  type?: 'text' | 'password' | 'email' | 'url';
+  type?: 'text' | 'number' | 'password' | 'email' | 'url';
   placeholder?: string;
   value?: string;
   required?: boolean;
   pattern?: string;
+  min?: string;
+  max?: string;
   minLength?: number;
   maxLength?: number;
   title?: TitleVariants | string;
   autocomplete?: AutoFill;
+  srOnly?: boolean;
 }
 
 type TitleVariants = 'PasswordTitle' | 'EmailTitle';
@@ -30,9 +33,12 @@ export function TextInput({
   required,
   title,
   pattern,
+  min,
+  max,
   minLength,
   maxLength,
   autocomplete,
+  srOnly,
 }: InputFieldProps): HTMLElement {
   const container = document.createElement('div');
   container.className = 'flex flex-col w-full justify-start gap-2';
@@ -40,7 +46,9 @@ export function TextInput({
   const inputLabel = document.createElement('label');
   inputLabel.htmlFor = id;
   inputLabel.textContent = label;
-  inputLabel.className = 'font-heading text-md font-semibold text-wexham-dark';
+  inputLabel.className = srOnly
+    ? 'sr-only'
+    : 'font-heading text-md font-semibold text-wexham-dark';
 
   const inputField = document.createElement('input');
   inputField.id = id;
@@ -50,6 +58,8 @@ export function TextInput({
   inputField.value = value ?? '';
   inputField.required = required ?? false;
   inputField.pattern = pattern ?? '';
+  inputField.min = min ?? '';
+  inputField.max = max ?? '';
   inputField.minLength = minLength ?? 0;
   inputField.maxLength = maxLength ?? 524288;
   inputField.title = title

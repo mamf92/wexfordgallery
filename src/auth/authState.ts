@@ -23,3 +23,15 @@ export function setAuthState({ accessToken, name }: AuthStateParams): void {
     localStorage.setItem(USER_NAME_KEY, name);
   }
 }
+
+export function getUserName(): string {
+  return localStorage.getItem(USER_NAME_KEY) || '';
+}
+
+/**
+ * Clears authentication state by removing access token and user name from local storage.
+ */
+export function clearAuthState(): void {
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.removeItem(USER_NAME_KEY);
+}

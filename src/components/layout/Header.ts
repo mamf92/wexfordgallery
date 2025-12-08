@@ -133,7 +133,7 @@ function renderProfileButton(
 ): HTMLElement {
   if (isAuthenticated) {
     return Button({
-      label: `Hi, ${userName}`,
+      label: userName ? `Hi, ${userName}` : 'Menu',
       size: 'medium',
       variant: 'primary',
       onClick: (event) => {

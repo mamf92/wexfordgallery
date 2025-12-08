@@ -259,6 +259,7 @@ function renderBidButton(
 ): HTMLElement {
   const bidButtonContainer = document.createElement('div');
   bidButtonContainer.className = 'flex justify-center w-full mt-2';
+  bidButtonContainer.id = 'bid-button-container';
   const bidButton = Button({
     label: options?.bidPreviouslyPlaced ? 'Place new bid?' : 'Place Bid',
     variant: 'primary',

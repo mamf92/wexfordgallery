@@ -32,7 +32,12 @@
   --color-wexham-blue: #395873;
   --color-wexham-light: #a9c6d9;
   --color-wexham-red: #8f2b16;
+  --color-wexham-red-focus: #ba361c;
   --color-wexham-green: #327d36;
+  --color-wexham-green-focus: #7dc360;
+
+  --shadow-focus:
+    inset 0 2px 0 0 rgb(1, 21, 38), inset 0 -2px 0 0 rgb(1, 21, 38);
 
   --background-image-aurora-silk:
     radial-gradient(
@@ -97,4 +102,19 @@
   height: 7rem;
   border-top: 5px solid #011526;
   border-right: 5px solid transparent;
+}
+
+input[data-state='valid'],
+textarea[data-state='valid'] {
+  @apply border-wexham-green focus:border-wexham-green;
+}
+
+input[data-state='invalid'],
+textarea[data-state='invalid'] {
+  @apply border-wexham-red focus:border-wexham-red;
+}
+
+input[data-state='default'],
+textarea[data-state='default'] {
+  @apply border-wexham-dark focus:border-wexham-dark;
 }

@@ -1,6 +1,17 @@
 import { renderMediaSection } from './ListingCard';
 import type { FullListing, Listing } from '../../api/listingsService';
 
+export interface ThumbnailCard {
+  listing: FullListing;
+  listOptions?: {
+    withDescription?: boolean;
+  };
+}
+
+/**
+ * Renders a thumbnail for a listing.
+ */
+
 export function renderThumbnail(
   listing: FullListing,
   options?: {

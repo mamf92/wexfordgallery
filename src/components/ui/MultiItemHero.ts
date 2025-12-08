@@ -28,7 +28,7 @@ export function renderMultiItemHero(
   });
   const scrollButtons = document.createElement('div');
   scrollButtons.className =
-    'flex max-lg:hidden gap-2 w-full justify-between absolute top-69 left-1/2 transform -translate-x-1/2';
+    'flex max-lg:hidden gap-2 w-full justify-between absolute top-[75%] left-1/2 transform -translate-x-1/2';
   const leftButton = Button({
     label: '‹ Previous',
     variant: 'tertiary',

@@ -16,28 +16,31 @@ export function renderHeroSection({
   const heroSection = document.createElement('section');
   heroSection.className =
     'flex flex-col gap-4 w-full flex items-center justify-center';
-  const heroHeader = renderHeroHeader(heading, subheading);
+  const sectionHeader = renderSectionHeader(heading, subheading);
 
   const heroCard = renderHeroContent(items);
   heroCard.className += ' relative';
-  heroSection.appendChild(heroHeader);
+  heroSection.appendChild(sectionHeader);
   heroSection.appendChild(heroCard);
   return heroSection;
 }
 
-function renderHeroHeader(heading: string, subheading: string): HTMLElement {
-  const heroHeader = document.createElement('div');
-  heroHeader.className = 'flex flex-col w-full gap-4 px-4';
-  const heroHeading = document.createElement('h1');
-  heroHeading.className = 'font-hero text-4xl text-wexham-white';
-  heroHeading.textContent = `${heading}`;
-  const heroSubheading = document.createElement('p');
-  heroSubheading.className =
+export function renderSectionHeader(
+  heading: string,
+  subheading: string
+): HTMLElement {
+  const sectionHeader = document.createElement('div');
+  sectionHeader.className = 'flex flex-col w-full gap-4 px-4';
+  const sectionHeading = document.createElement('h1');
+  sectionHeading.className = 'font-hero text-4xl xl:text-6xl text-wexham-white';
+  sectionHeading.textContent = `${heading}`;
+  const sectionSubheading = document.createElement('p');
+  sectionSubheading.className =
     'font-hero-sub text-lg text-wexham-white uppercase';
-  heroSubheading.textContent = `${subheading}`;
-  heroHeader.appendChild(heroHeading);
-  heroHeader.appendChild(heroSubheading);
-  return heroHeader;
+  sectionSubheading.textContent = `${subheading}`;
+  sectionHeader.appendChild(sectionHeading);
+  sectionHeader.appendChild(sectionSubheading);
+  return sectionHeader;
 }
 
 function renderHeroContent(items: FullListing[]): HTMLElement {

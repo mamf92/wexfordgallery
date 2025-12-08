@@ -8,19 +8,26 @@ import { customScrollbar } from './CustomScrollbar';
 
 const BASE = import.meta.env.BASE_URL;
 
+export interface ListingCard {
+  listing: FullListing;
+  listOptions?: ListingCardOptions;
+}
+
+interface ListingCardOptions {
+  isAuthenticated?: boolean;
+  onBidButtonPress?: (listingId: string) => void;
+  onUnauthenticatedBidAttempt?: () => void;
+  bidPreviouslyPlaced?: boolean;
+  withDescription?: boolean;
+}
+
 /**
  * Renders a listing card component.
  */
 
 export function renderListingCard(
   listing: FullListing,
-  options?: {
-    isAuthenticated?: boolean;
-    onBidButtonPress?: (listingId: string) => void;
-    onUnauthenticatedBidAttempt?: () => void;
-    bidPreviouslyPlaced?: boolean;
-    withDescription?: boolean;
-  }
+  options?: ListingCardOptions
 ): HTMLElement | null {
   if (!listing) {
     console.error('No listing data provided to renderListingCard.');

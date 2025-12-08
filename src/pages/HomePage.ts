@@ -1,3 +1,5 @@
+// import { makeListingCards } from "../utils/mapListingsToCards";
+
 export function renderHomePage() {
   const homeViewContainer = document.createElement('section');
   homeViewContainer.className =
@@ -13,3 +15,13 @@ export function renderHomePage() {
   homeViewContainer.appendChild(link);
   return homeViewContainer;
 }
+
+// const cards = makeListingCards({
+//   listings: fetchedListings,
+//   isAuthenticated: userIsLoggedIn,
+//   withDescription: true,
+//   onBidButtonPress: handleBid,
+//   onUnauthenticatedBidAttempt: () => console.log('Please sign in to bid.'),
+// });
+
+// const latestSection = renderLatestSection(cards);

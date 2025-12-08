@@ -15,7 +15,6 @@ export function renderSingleItemHero(
   const singleItemContainer = document.createElement('div');
   singleItemContainer.className =
     'relative flex flex-col border-wexham-dark border-t-1 border-b-1 h-min w-full bg-wexham-white';
-  console.log('Rendering single item hero for listing:', listing);
   const mediaSection = renderMediaSection(listing);
   if (!mediaSection) {
     return null;
@@ -35,9 +34,7 @@ export function renderSingleItemHero(
 }
 
 function renderMediaSection(listing: FullListing): HTMLElement | null {
-  console.log('Rendering media section for listing:', listing);
   if (listing.media) {
-    console.log('Listing has media:', listing.media);
     const mediaLink = document.createElement('a');
     mediaLink.className =
       'flex border-wexham-dark border-b-1 focus:border-[0.4rem] focus:border-wexham-blue hover:cursor-pointer h-[60vh]';
@@ -48,7 +45,7 @@ function renderMediaSection(listing: FullListing): HTMLElement | null {
     const img = document.createElement('img');
     img.src = listing.media[0].url;
     img.alt = listing.media[0].alt || listing.title;
-    img.className = 'object-cover hover:cursor-pointer';
+    img.className = 'w-full object-cover hover:cursor-pointer';
     mediaLink.appendChild(img);
     return mediaLink;
   } else {

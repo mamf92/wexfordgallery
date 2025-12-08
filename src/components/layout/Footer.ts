@@ -1,3 +1,5 @@
+import { renderEmailListForm } from '../forms/EmailListForm';
+
 export function Footer() {
   const footerContainer = document.createElement('div');
   footerContainer.className = 'w-full py-24 px-14  bg-wexham-white';
@@ -11,8 +13,8 @@ function renderFooterContent() {
 
   content.className = `
   flex flex-col items-start gap-10
-  md:grid md:grid-cols-2 md:grid-rows-3 md:gap-4
-  lg:grid-cols-[1fr_1fr_1fr] lg:grid-rows-2 lg:gap-6 lg:max-w-[80%] lg:mx-auto`;
+  md:grid md:grid-cols-2 md:auto-rows-min md:gap-4 md:max-h-min
+  lg:grid-cols-[1fr_1fr_1fr] lg:auto-rows-min lg:gap-6 lg:max-w-[80%] lg:mx-auto`;
   const socials = createSocials();
   socials.className += ' md:col-2 md:row-1 lg:col-3 lg:row-1';
   const contactInfo = createContactInfo();
@@ -31,7 +33,7 @@ function renderFooterContent() {
 
 function createSocials() {
   const socialsContainer = document.createElement('div');
-  socialsContainer.className = 'flex flex-col items-start gap-6';
+  socialsContainer.className = 'flex flex-col w-full items-start gap-6';
   const socialLinks = createSocialLinks();
   socialsContainer.appendChild(socialLinks);
   const newsletterForm = createNewsletterForm();
@@ -86,12 +88,20 @@ function createSocialLinks() {
 
 function createNewsletterForm() {
   const form = document.createElement('div');
+  form.className = 'flex flex-col w-full items-start gap-2';
   const newsLetterHeading = document.createElement('h4');
   newsLetterHeading.className =
     'font-heading text-wexham-dark font-semibold text-md';
   newsLetterHeading.textContent = 'Sign up to our Newsletter:';
   form.appendChild(newsLetterHeading);
-  // TODO: Implement actual newsletter functionality
+  const emailListForm = renderEmailListForm((e: SubmitEvent) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    const formData = new FormData(e.target as HTMLFormElement);
+    const email = formData.get('email');
+    console.log('Newsletter signup email:', email);
+  });
+  form.appendChild(emailListForm);
 
   return form;
 }
@@ -176,7 +186,7 @@ function createLinks() {
 function createCopyright() {
   const copyrightContainer = document.createElement('div');
   copyrightContainer.className =
-    'text-wexham-blue text-sm text-center border-t-1 border-wexham-dark mt-3a';
+    'text-wexham-blue text-sm text-center border-t-1 border-wexham-dark pt-4 max-h-min';
   copyrightContainer.textContent =
     '© 2025 Wexford Gallery. All rights reserved.';
   return copyrightContainer;

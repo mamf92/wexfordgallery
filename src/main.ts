@@ -4,6 +4,7 @@ import { routes } from './router/routes';
 import { Header } from './components/layout/Header';
 import type { HeaderProps } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
+import { isAuthenticated, getUserName, clearAuthState } from './auth/authState';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -19,12 +20,11 @@ export function initializeApp() {
     throw new Error('Main, header, or footer container not found');
   }
 
-  // TODO: Replace with actual auth state (from API, localStorage, etc.)
-  const isAuthenticated = false;
-  const userName = 'John Doe';
+  const isAuthenticatedFlag = isAuthenticated();
+  const userName = getUserName();
   const onLogout = () => {
-    console.log('User logged out');
-    // Handle logout logic
+    clearAuthState();
+    window.location.reload();
   };
 
   const getCurrentPage = (pathname: string): HeaderProps => {
@@ -51,7 +51,7 @@ export function initializeApp() {
     headerContainer.innerHTML = '';
     headerContainer.appendChild(
       Header({
-        isAuthenticated,
+        isAuthenticated: isAuthenticatedFlag,
         userName,
         currentPage,
         onLogout,

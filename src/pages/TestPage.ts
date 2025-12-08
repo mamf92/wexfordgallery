@@ -5,6 +5,7 @@ import { renderThumbnail } from '../components/ui/Thumbnail';
 import { renderListingCardWithEditActions } from '../components/ui/ThumbnailWithEditActions';
 import { renderProfileCard } from '../components/ui/ProfileCard';
 import { renderBidForm } from '../components/forms/BidForm';
+import { renderHeroSection } from '../components/sections/Hero';
 /**
  * Renders the test page with various UI component demonstrations.
  */
@@ -13,6 +14,13 @@ export function renderTestPage() {
   const testViewContainer = document.createElement('section');
   testViewContainer.className =
     'flex flex-col items-center justify-center w-full gap-4 bg-aurora-silk py-8';
+
+  const heroSection = renderHeroSection({
+    heading: 'Watches',
+    subheading: 'View our premium collection',
+    items: [exampleListing, exampleListing2, exampleListing, exampleListing2],
+  });
+  testViewContainer.appendChild(heroSection);
 
   const profileCard = renderProfileCard(exampleProfile, (profileName) => {
     console.log(`Edit profile clicked for: ${profileName}`);

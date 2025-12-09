@@ -53,21 +53,23 @@ export function TextInput({
   const inputField = document.createElement('input');
   inputField.id = id;
   inputField.name = name;
-  inputField.type = type ?? '';
+  inputField.type = type ?? 'text';
   inputField.placeholder = placeholder ?? '';
   inputField.value = value ?? '';
   inputField.required = required ?? false;
-  inputField.pattern = pattern ?? '';
-  inputField.min = min ?? '';
-  inputField.max = max ?? '';
-  inputField.minLength = minLength ?? 0;
-  inputField.maxLength = maxLength ?? 524288;
-  inputField.title = title
-    ? (TITLE_VARIANTS[title as TitleVariants] ?? (title as string))
-    : '';
+  if (pattern) inputField.pattern = pattern;
+  if (min) inputField.min = min;
+  if (max) inputField.max = max;
+  if (minLength) inputField.minLength = minLength;
+  if (maxLength) inputField.maxLength = maxLength;
+  if (title) {
+    inputField.title =
+      TITLE_VARIANTS[title as TitleVariants] ?? (title as string);
+  }
   inputField.autocomplete = autocomplete ?? 'on';
   inputField.className =
     'flex flex-row p-2 bg-wexham-white border-wexham-dark border-y-1 lg:border-y-2 justify-start items-center font-body text-sm focus:outline-none focus:shadow-focus';
+  inputField.dataset.state = 'default';
 
   const helperText = document.createElement('span');
   helperText.className = 'text-xs font-body text-orange-800 hidden';

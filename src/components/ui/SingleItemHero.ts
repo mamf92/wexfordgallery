@@ -1,9 +1,9 @@
-import type { FullListing } from '../../api/listingsService';
+import type { FullListing, Listing } from '../../api/listingsService';
 
 const BASE = import.meta.env.BASE_URL;
 
 export function renderSingleItemHero(
-  listing: FullListing,
+  listing: FullListing | Listing,
   options?: {
     withDescription?: boolean;
   }
@@ -33,7 +33,9 @@ export function renderSingleItemHero(
   return singleItemContainer;
 }
 
-function renderMediaSection(listing: FullListing): HTMLElement | null {
+function renderMediaSection(
+  listing: FullListing | Listing
+): HTMLElement | null {
   if (listing.media) {
     const mediaLink = document.createElement('a');
     mediaLink.className =
@@ -58,7 +60,7 @@ function renderMediaSection(listing: FullListing): HTMLElement | null {
  * Render the listing title.
  */
 
-function renderSingleItemTitle(listing: FullListing): HTMLElement {
+function renderSingleItemTitle(listing: FullListing | Listing): HTMLElement {
   const title = document.createElement('h3');
   title.className =
     'w-full font-heading font-semibold text-wexham-dark text-md';
@@ -70,7 +72,9 @@ function renderSingleItemTitle(listing: FullListing): HTMLElement {
  * Render the listing description.
  */
 
-function renderSingleItemDescription(listing: FullListing): HTMLElement {
+function renderSingleItemDescription(
+  listing: FullListing | Listing
+): HTMLElement {
   const body = document.createElement('p');
   body.className = 'font-body text-xs text-wexham-dark';
   body.textContent = listing.description;

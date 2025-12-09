@@ -5,6 +5,7 @@ import { Header } from './components/layout/Header';
 import type { HeaderProps } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { isAuthenticated, getUserName, clearAuthState } from './auth/authState';
+import { showPageSpinner } from './components/ui/Spinners';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -19,6 +20,8 @@ export function initializeApp() {
   if (!mainContainer || !headerContainer || !footerContainer) {
     throw new Error('Main, header, or footer container not found');
   }
+
+  showPageSpinner('large', mainContainer);
 
   const isAuthenticatedFlag = isAuthenticated();
   const userName = getUserName();

@@ -15,7 +15,7 @@ export interface ListingCard {
 
 interface ListingCardOptions {
   isAuthenticated?: boolean;
-  onBidButtonPress?: (listingId: string) => void;
+  onBidButtonPress?: (listingId: string, bidButton: HTMLElement) => void;
   onUnauthenticatedBidAttempt?: () => void;
   bidPreviouslyPlaced?: boolean;
   withDescription?: boolean;
@@ -133,7 +133,7 @@ function renderContentSection(
   listing: FullListing,
   options?: {
     isAuthenticated?: boolean;
-    onBidButtonPress?: (listingId: string) => void;
+    onBidButtonPress?: (listingId: string, bidButton: HTMLElement) => void;
     onUnauthenticatedBidAttempt?: () => void;
     bidPreviouslyPlaced?: boolean;
     withDescription?: boolean;
@@ -258,7 +258,7 @@ function renderListingLiveInfo(listing: FullListing): HTMLElement {
 function renderBidButton(
   listing: FullListing,
   options?: {
-    onBidButtonPress?: (listingId: string) => void;
+    onBidButtonPress?: (listingId: string, bidButton: HTMLElement) => void;
     onUnauthenticatedBidAttempt?: () => void;
     bidPreviouslyPlaced?: boolean;
     isAuthenticated?: boolean;
@@ -273,7 +273,7 @@ function renderBidButton(
     size: 'medium',
     onClick: () => {
       if (options?.isAuthenticated && options?.onBidButtonPress && listing.id) {
-        options.onBidButtonPress(listing.id);
+        options.onBidButtonPress(listing.id, bidButtonContainer);
       } else if (
         !options?.isAuthenticated &&
         options?.onUnauthenticatedBidAttempt

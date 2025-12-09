@@ -1,11 +1,11 @@
 import type { FullListing } from '../api/listingsService';
 import type { ListingCard } from '../components/ui/ListingCard';
 
-type MakeCardsArgs = {
+export type MakeCardsArgs = {
   listings: FullListing[];
   isAuthenticated?: boolean;
   withDescription?: boolean;
-  onBidButtonPress?: (id: string) => void;
+  onBidButtonPress?: (id: string, bidButton: HTMLElement) => void;
   onUnauthenticatedBidAttempt?: () => void;
   bidPreviouslyPlaced?: boolean;
 };

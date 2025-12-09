@@ -161,6 +161,24 @@ export async function getNewestActiveListings({
 
 /**
  *
+ * Fetch newest active listings with optional pagination and limited results per page.
+ */
+export async function getNewestActiveFullListings({
+  page = 1,
+  limit = 10,
+}: PaginationProps): Promise<PaginatedResponse<FullListing>> {
+  const response = await get<PaginatedResponse<FullListing>>(
+    `/auction/listings?page=${page}&limit=${limit}&_sort=created&_active=true&_seller=true&_bids=true`,
+    false
+  );
+  if (!response) {
+    throw new Error('Could not get listings.');
+  }
+  return response;
+}
+
+/**
+ *
  * Fetch active listings with optional pagination and limited results per page.
  */
 export async function getActiveListings({

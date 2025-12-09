@@ -5,7 +5,9 @@
 const BASE = import.meta.env.BASE_URL;
 
 type RouteResult = string | HTMLElement;
-type RouteHandler = () => RouteResult | Promise<RouteResult>;
+type RouteHandler = (
+  params?: Record<string, string>
+) => RouteResult | Promise<RouteResult>;
 
 export class Router {
   private routes: Record<string, RouteHandler>;
@@ -36,9 +38,12 @@ export class Router {
       : rawPath;
 
     this.onRouteChange?.(rawPath);
-    const view = this.routes[path] || this.notFoundView;
+
+    const { handler, params } = this.matchRoute(path);
+    const view = handler || this.notFoundView;
+
     try {
-      const result = view();
+      const result = view(params);
       if (result instanceof Promise) {
         result
           .then((resolved) => this.render(resolved))
@@ -49,6 +54,45 @@ export class Router {
     } catch {
       this.render(this.errorView('Unexpected error.'));
     }
+  }
+
+  private matchRoute(path: string): {
+    handler: RouteHandler | null;
+    params: Record<string, string>;
+  } {
+    // Exact match first
+    if (this.routes[path]) {
+      return { handler: this.routes[path], params: {} };
+    }
+
+    // Dynamic route matching
+    for (const [route, handler] of Object.entries(this.routes)) {
+      const regex = this.routeToRegex(route);
+      const match = path.match(regex);
+
+      if (match) {
+        const paramNames = this.extractParamNames(route);
+        const params: Record<string, string> = {};
+
+        paramNames.forEach((name, index) => {
+          params[name] = match[index + 1];
+        });
+
+        return { handler, params };
+      }
+    }
+
+    return { handler: null, params: {} };
+  }
+
+  private routeToRegex(route: string): RegExp {
+    const pattern = route.replace(/:\w+/g, '([^/]+)');
+    return new RegExp(`^${pattern}$`);
+  }
+
+  private extractParamNames(route: string): string[] {
+    const matches = route.match(/:\w+/g);
+    return matches ? matches.map((m) => m.slice(1)) : [];
   }
 
   private render(result: RouteResult): void {

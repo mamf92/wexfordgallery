@@ -34,7 +34,7 @@ export function TextArea({
   const inputLabel = document.createElement('label');
   inputLabel.htmlFor = id;
   inputLabel.textContent = label;
-  inputLabel.className = 'font-heading text-md font-bold';
+  inputLabel.className = 'font-heading text-md font-semibold text-wexham-dark';
 
   const inputField = document.createElement('textarea');
   inputField.id = id;
@@ -42,13 +42,14 @@ export function TextArea({
   inputField.placeholder = placeholder ?? '';
   inputField.value = value ?? '';
   inputField.required = required ?? false;
-  inputField.minLength = minLength ?? 0;
-  inputField.maxLength = maxLength ?? 524288;
-  inputField.title = title
-    ? (TITLE_VARIANTS[title as TitleVariants] ?? (title as string))
-    : '';
+  if (minLength) inputField.minLength = minLength;
+  if (maxLength) inputField.maxLength = maxLength;
+  if (title) {
+    inputField.title =
+      TITLE_VARIANTS[title as TitleVariants] ?? (title as string);
+  }
   inputField.className =
-    'flex flex-row p-2 bg-white rounded-lg outline-[0.1875rem] outline-black focus:outline-[0.4rem] justify-start items-center font-body text-sm';
+    'flex flex-row p-2 bg-wexham-white border-wexham-dark border-y-1 lg:border-y-2 justify-start items-center font-body text-sm focus:outline-none focus:shadow-focus';
   inputField.dataset.state = 'default';
 
   const helperText = document.createElement('span');

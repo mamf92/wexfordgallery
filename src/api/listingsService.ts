@@ -290,7 +290,7 @@ export async function updateListing(
   return response;
 }
 
-export async function deleteListing(id: number): Promise<void> {
+export async function deleteListing(id: string): Promise<void> {
   const response = await del<void>(`/auction/listings/${id}`);
   if (response !== null) {
     throw new Error('Error deleting listing: Unexpected response received.');

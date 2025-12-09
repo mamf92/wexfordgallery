@@ -19,6 +19,7 @@ interface ListingCardOptions {
   onUnauthenticatedBidAttempt?: () => void;
   bidPreviouslyPlaced?: boolean;
   withDescription?: boolean;
+  withBidsOverview?: boolean;
 }
 
 /**
@@ -137,6 +138,7 @@ function renderContentSection(
     onUnauthenticatedBidAttempt?: () => void;
     bidPreviouslyPlaced?: boolean;
     withDescription?: boolean;
+    withBidsOverview?: boolean;
   }
 ): HTMLElement {
   const content = document.createElement('div');
@@ -164,9 +166,15 @@ function renderContentSection(
     bidPreviouslyPlaced: options?.bidPreviouslyPlaced,
     isAuthenticated: options?.isAuthenticated,
   });
-  content.appendChild(bidButton);
+  if (bidButton) {
+    content.appendChild(bidButton);
+  }
 
-  if (options?.isAuthenticated && listing.bids.length > 0) {
+  if (
+    options?.isAuthenticated &&
+    options?.withBidsOverview &&
+    listing.bids.length > 0
+  ) {
     const bidList = renderBidList(listing);
     content.appendChild(bidList);
   }
@@ -229,15 +237,19 @@ function renderListingLiveInfo(listing: FullListing): HTMLElement {
   highestBid.textContent = `Highest Bid: $${listing.bids.at(-1)?.amount || '0'}`;
   highestBidContainer.appendChild(highestBid);
 
-  const bidRefreshButton = Button({
-    label: 'Refresh',
-    variant: 'secondary',
-    size: 'xsmall',
-    onClick: () => {
-      window.location.reload();
-    },
-  });
-  highestBidContainer.appendChild(bidRefreshButton);
+  // Only show refresh button if auction is still active
+  if (!isAuctionEnded(listing.endsAt)) {
+    const bidRefreshButton = Button({
+      label: 'Refresh',
+      variant: 'secondary',
+      size: 'xsmall',
+      onClick: () => {
+        window.location.reload();
+      },
+    });
+    highestBidContainer.appendChild(bidRefreshButton);
+  }
+
   liveInfo.appendChild(highestBidContainer);
 
   const timeRemainingContainer = document.createElement('div');
@@ -253,7 +265,7 @@ function renderListingLiveInfo(listing: FullListing): HTMLElement {
 }
 
 /**
- * Renders the bid button with callback.
+ * Renders the bid button with callback. Returns null if auction has ended.
  */
 function renderBidButton(
   listing: FullListing,
@@ -263,7 +275,12 @@ function renderBidButton(
     bidPreviouslyPlaced?: boolean;
     isAuthenticated?: boolean;
   }
-): HTMLElement {
+): HTMLElement | null {
+  // Skip rendering bid button if auction has ended
+  if (isAuctionEnded(listing.endsAt)) {
+    return null;
+  }
+
   const bidButtonContainer = document.createElement('div');
   bidButtonContainer.className = 'flex justify-center w-full mt-2';
   bidButtonContainer.id = 'bid-button-container';
@@ -373,6 +390,10 @@ function renderBidAmount(bid: BidInListing): HTMLElement {
 }
 
 // Utilities for Listing Card
+
+function isAuctionEnded(endsAt: string): boolean {
+  return new Date(endsAt).getTime() <= Date.now();
+}
 
 function formatTimeRemaining(endsAt: string): string {
   const timeDiff = new Date(endsAt).getTime() - Date.now();

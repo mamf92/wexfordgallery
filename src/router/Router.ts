@@ -5,8 +5,7 @@
 const BASE = import.meta.env.BASE_URL;
 
 type RouteResult = string | HTMLElement;
-// type RouteHandler = () => RouteResult | Promise<RouteResult>;
-type RouteHandler = () => RouteResult;
+type RouteHandler = () => RouteResult | Promise<RouteResult>;
 
 export class Router {
   private routes: Record<string, RouteHandler>;
@@ -38,20 +37,18 @@ export class Router {
 
     this.onRouteChange?.(rawPath);
     const view = this.routes[path] || this.notFoundView;
-    const result = view();
-    this.render(result);
-    //     try {
-    //       const result = view();
-    //       if (result instanceof Promise) {
-    //         result
-    //           .then((resolved) => this.render(resolved))
-    //           .catch(() => this.render(this.errorView('Failed to load page.')));
-    //       } else {
-    //         this.render(result);
-    //       }
-    //     } catch {
-    //       this.render(this.errorView('Unexpected error.'));
-    //     }
+    try {
+      const result = view();
+      if (result instanceof Promise) {
+        result
+          .then((resolved) => this.render(resolved))
+          .catch(() => this.render(this.errorView('Failed to load page.')));
+      } else {
+        this.render(result);
+      }
+    } catch {
+      this.render(this.errorView('Unexpected error.'));
+    }
   }
 
   private render(result: RouteResult): void {
@@ -75,12 +72,12 @@ export class Router {
     `;
   }
 
-  //   private errorView(message: string): string {
-  //     return `
-  //       <div class="text-center py-10">
-  //         <h1 class="text-2xl font-heading text-red-600 mb-4">Error</h1>
-  //         <p class="font-body">${message}</p>
-  //       </div>
-  //     `;
-  //   }
+  private errorView(message: string): string {
+    return `
+        <div class="text-center py-10">
+          <h1 class="text-2xl font-heading text-red-600 mb-4">Error</h1>
+          <p class="font-body">${message}</p>
+        </div>
+      `;
+  }
 }

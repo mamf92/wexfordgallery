@@ -5,7 +5,12 @@ import type { ListingCard } from '../ui/ListingCard';
  * Renders the Latest section showcasing the most recent listings.
  */
 
-export function renderLatestSection(listings: ListingCard[]): HTMLElement {
+export function renderLatestSection(
+  listings: ListingCard[] | null
+): HTMLElement {
+  if (!listings || listings.length === 0) {
+    throw new Error('No listings available for the Latest section.');
+  }
   const latestSection = document.createElement('section');
   latestSection.className =
     'flex flex-col my-4 gap-4 w-full flex items-center justify-center';

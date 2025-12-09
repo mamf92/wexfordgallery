@@ -1,4 +1,4 @@
-import { put } from './apiClient';
+import { post } from './apiClient';
 import type { Listing, SingleResponse } from './listingsService';
 
 /**
@@ -14,10 +14,11 @@ interface Bid {
  * Place a bid on a listing by its ID.
  */
 export async function placeBid(
-  listingId: number,
+  listingId: string,
   data: Bid
 ): Promise<SingleResponse<Listing>> {
-  const response = await put<SingleResponse<Listing>>(
+  console.log('Placing bid on listing ID:', listingId, 'with data:', data);
+  const response = await post<SingleResponse<Listing>>(
     `/auction/listings/${listingId}/bids`,
     data
   );

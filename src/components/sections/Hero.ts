@@ -1,11 +1,11 @@
-import type { FullListing } from '../../api/listingsService';
+import type { FullListing, Listing } from '../../api/listingsService';
 import { renderSingleItemHero } from '../ui/SingleItemHero';
 import { renderMultiItemHero } from '../ui/MultiItemHero';
 
 interface HeroSectionProps {
   heading: string;
   subheading: string;
-  items: FullListing[];
+  items: FullListing[] | Listing[];
 }
 
 export function renderHeroSection({
@@ -14,6 +14,7 @@ export function renderHeroSection({
   items,
 }: HeroSectionProps): HTMLElement {
   const heroSection = document.createElement('section');
+  console.log('rendering hero section with items:', items);
   heroSection.className =
     'flex flex-col gap-4 w-full flex items-center justify-center';
   const sectionHeader = renderSectionHeader(heading, subheading);
@@ -43,7 +44,7 @@ export function renderSectionHeader(
   return sectionHeader;
 }
 
-function renderHeroContent(items: FullListing[]): HTMLElement {
+function renderHeroContent(items: FullListing[] | Listing[]): HTMLElement {
   const heroContent = document.createElement('div');
   heroContent.className = 'flex flex-col w-full';
   if (!items || items.length === 0) {

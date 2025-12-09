@@ -1,10 +1,10 @@
-import type { FullListing } from '../../api/listingsService';
+import type { FullListing, Listing } from '../../api/listingsService';
 import { renderSingleItemHero } from './SingleItemHero';
 import { customScrollbar } from './CustomScrollbar';
 import { Button } from './Buttons';
 
 interface MultipleItemsOptions {
-  listings: FullListing[];
+  listings: FullListing[] | Listing[];
   withDescription?: boolean;
 }
 

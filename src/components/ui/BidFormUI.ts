@@ -2,7 +2,10 @@ import { Button } from './Buttons.ts';
 
 const BASE = import.meta.env.VITE_BASE_URL;
 
-export function showBidFlow(listingId: string): HTMLElement {
+export function showBidFlow(
+  listingId: string,
+  handleBid: (id: string) => void
+): HTMLElement {
   const bidFlowContainer = document.createElement('div');
   bidFlowContainer.className = 'flex justify-center w-full mt-2';
   const tempBidFlowButton = Button({
@@ -10,6 +13,7 @@ export function showBidFlow(listingId: string): HTMLElement {
     variant: 'primary',
     size: 'medium',
     onClick: () => {
+      handleBid(listingId);
       window.location.href = BASE + `listing/${listingId}`;
     },
   });

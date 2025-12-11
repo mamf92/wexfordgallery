@@ -47,6 +47,7 @@ async function prepareLatestListings(): Promise<ListingCard[]> {
   return makeListingCards({
     listings,
     isAuthenticated: isAuthenticated(),
+    currentUserName: getUserName() || undefined, // pass current user
     withDescription: true,
     onBidButtonPress: (listingId: string, bidButton: HTMLElement) =>
       handleBid(listingId, bidButton),
@@ -80,10 +81,8 @@ async function handleBidSubmit(e: SubmitEvent, listingId: string) {
   const form = e.target as HTMLFormElement;
   const bidAmount = (form.elements.namedItem('bid-amount') as HTMLInputElement)
     ?.value;
-  console.log('Placing bid of amount:', bidAmount, 'on listing:', listingId);
 
   await placeBid(listingId, { amount: parseInt(bidAmount) });
-  console.log('Bid placed successfully.');
   handlePlacedBid(listingId);
 }
 
@@ -93,8 +92,9 @@ function handlePlacedBid(listingId: string) {
     message: 'Your bid has been placed successfully.',
     icon: 'success',
   });
-
-  window.location.href = `${BASE}listing/${listingId}`;
+  setTimeout(() => {
+    window.location.href = `${BASE}listing/${listingId}`;
+  }, 2000);
 }
 
 function handleUnauthenticatedBid() {

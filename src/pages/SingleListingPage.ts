@@ -22,6 +22,7 @@ export async function renderSingleListingPage(params?: Record<string, string>) {
 
     const card = renderListingCard(listing.data, {
       isAuthenticated: isAuthenticated(),
+      currentUserName: getUserName() || undefined,
       onBidButtonPress: (listingId: string, bidButton: HTMLElement) =>
         handleBid(listingId, bidButton),
       onUnauthenticatedBidAttempt: handleUnauthenticatedBid,

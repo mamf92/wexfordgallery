@@ -159,6 +159,9 @@ async function onDeleteListing(listingId: string) {
       message: 'Listing deleted successfully.',
       icon: 'success',
     });
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   } catch (error) {
     console.error('Error deleting listing:', error);
   }

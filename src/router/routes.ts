@@ -19,4 +19,6 @@ export const routes = {
   '/listing/:id': (params?: Record<string, string>) =>
     renderSingleListingPage(params),
   '/create-listing': () => renderCreateListingPage(),
+  '/edit-listing/:id': (params?: Record<string, string>) =>
+    renderCreateListingPage(params),
 };

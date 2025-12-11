@@ -277,7 +277,7 @@ export async function createListing(
 }
 
 export async function updateListing(
-  id: number,
+  id: string,
   data: CreateListingFormData
 ): Promise<CreateListingResponse> {
   const response = await put<CreateListingResponse>(

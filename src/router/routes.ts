@@ -1,5 +1,4 @@
 import { renderHomePage } from '../pages/HomePage';
-import { renderTestPage } from '../pages/TestPage';
 import { renderLoginPage } from '../pages/LoginPage';
 import { renderRegistrationPage } from '../pages/RegistrationPage';
 import { renderSingleListingPage } from '../pages/SingleListingPage';
@@ -10,7 +9,6 @@ import { renderBrowsePage } from '../pages/BrowsePage';
 
 export const routes = {
   '/': () => renderHomePage(),
-  '/test': () => renderTestPage(),
   '/login': () => renderLoginPage(),
   '/register': () => renderRegistrationPage(),
   '/explore': () => renderBrowsePage(),

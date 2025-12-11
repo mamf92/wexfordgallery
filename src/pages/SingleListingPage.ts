@@ -8,6 +8,9 @@ import { placeBid } from '../api/bidsService';
 
 const BASE = import.meta.env.BASE_URL;
 
+/**
+ * Renders the single listing detail page with bidding capabilities.
+ */
 export async function renderSingleListingPage(params?: Record<string, string>) {
   const listingContainer = document.createElement('div');
   listingContainer.className =
@@ -50,6 +53,9 @@ export async function renderSingleListingPage(params?: Record<string, string>) {
   return listingContainer;
 }
 
+/**
+ * Replaces the bid button with the bid form for authenticated users.
+ */
 async function handleBid(listingId: string, bidButton: HTMLElement) {
   const userName = getUserName();
   if (!userName) {
@@ -71,18 +77,22 @@ async function handleBid(listingId: string, bidButton: HTMLElement) {
   }
 }
 
+/**
+ * Submits the bid and shows success confirmation.
+ */
 async function handleBidSubmit(e: SubmitEvent, listingId: string) {
   e.preventDefault();
   const form = e.target as HTMLFormElement;
   const bidAmount = (form.elements.namedItem('bid-amount') as HTMLInputElement)
     ?.value;
-  console.log('Placing bid of amount:', bidAmount, 'on listing:', listingId);
 
   await placeBid(listingId, { amount: parseInt(bidAmount) });
-  console.log('Bid placed successfully.');
   handlePlacedBid(listingId);
 }
 
+/**
+ * Shows success modal and reloads the listing page.
+ */
 function handlePlacedBid(listingId: string) {
   showModal({
     title: 'Bid Placed',
@@ -93,6 +103,9 @@ function handlePlacedBid(listingId: string) {
   window.location.href = `${BASE}listing/${listingId}`;
 }
 
+/**
+ * Prompts unauthenticated users to log in before bidding.
+ */
 function handleUnauthenticatedBid() {
   requestConfirmation({
     title: 'Authentication Required',

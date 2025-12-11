@@ -13,9 +13,6 @@ export interface RegisterData {
   password: string;
 }
 
-/**
- * A base user object representing base user properties.
- */
 export interface BaseUser {
   name: string;
   email: string;
@@ -39,8 +36,7 @@ interface RegisterResponse {
 }
 
 /**
- *
- * Registers a new user with the provided data.
+ * Registers a new user.
  */
 export async function register(data: RegisterData): Promise<RegisterResponse> {
   const response = await post<RegisterResponse>('/auth/register', data, false);
@@ -50,9 +46,8 @@ export async function register(data: RegisterData): Promise<RegisterResponse> {
 }
 
 /**
- * Logs in a user with provided credentials and updates the authentication state.
+ * Logs in a user and updates authentication state.
  */
-
 export async function login(data: LoginData): Promise<LoginResponse> {
   const response = await post<LoginResponse>('/auth/login', data, false);
 

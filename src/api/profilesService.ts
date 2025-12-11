@@ -9,34 +9,26 @@ import type {
 } from './listingsService';
 
 /**
- * A full profile object including credits and counts of listings and wins.
+ * Full profile object including credits and counts.
  */
 export interface Profile extends BaseUser {
   credits: number;
   _count: { listings: number; wins: number };
 }
 
-/**
- * Data for updating a profile, excluding immutable fields.
- */
 type ProfileUpdateData = Partial<Omit<BaseUser, 'name' | 'email'>>;
 
-/**
- * Properties required to update a profile.
- */
 interface ProfileUpdateProps {
   name: string;
   data: ProfileUpdateData;
 }
 
-/**
- * Query properties for fetching by name with pagination.
- */
 export interface ProfileQueryProps extends PaginationProps {
   name: string;
 }
 
-/** A simple listing object without counts. Used in bids with listings.
+/**
+ * Listing object without counts, used in bids with listings.
  */
 type SimpleListing = Omit<Listing, '_count'>;
 
@@ -44,19 +36,12 @@ interface PlacedBidWithListing {
   id: number;
   amount: number;
   bidder: BaseUser;
-  created: string; // ISO 8601 date string
+  created: string;
   listing: SimpleListing;
 }
 
-/**
- * A placed bid object without the listing details. Used when fetching bids by profile.
- */
 type PlacedBid = Omit<PlacedBidWithListing, 'listing'>;
 
-/**
- *
- * Fetch a single profile by name.
- */
 export async function getSingleProfile(
   name: string
 ): Promise<SingleResponse<Profile>> {
@@ -70,8 +55,7 @@ export async function getSingleProfile(
 }
 
 /**
- *
- * Fetch full listings by profile name with seller info and bids overview. Optional pagination and limited results per page.
+ * Fetch listings by profile with seller info and bids overview.
  */
 export async function getFullListingsByProfile({
   name,
@@ -87,10 +71,6 @@ export async function getFullListingsByProfile({
   return response;
 }
 
-/**
- *
- * Fetch simple listings by profile name with optional pagination and limited results per page.
- */
 export async function getSimpleListingsByProfile({
   name,
   page = 1,
@@ -106,8 +86,7 @@ export async function getSimpleListingsByProfile({
 }
 
 /**
- *
- * Fetch bids with listing details by profile name with optional pagination and limited results per page.
+ * Fetch bids with full listing details attached.
  */
 export async function getBidsWithListingsByProfile({
   name,
@@ -123,10 +102,6 @@ export async function getBidsWithListingsByProfile({
   return response;
 }
 
-/**
- *
- * Fetch bids by profile name with optional pagination and limited results per page.
- */
 export async function getBidsByProfile({
   name,
   page = 1,
@@ -141,10 +116,6 @@ export async function getBidsByProfile({
   return response;
 }
 
-/**
- *
- * Fetch wins by profile name with optional pagination and limited results per page.
- */
 export async function getWinsByProfile({
   name,
   page = 1,
@@ -159,10 +130,6 @@ export async function getWinsByProfile({
   return response;
 }
 
-/**
- *
- * Update a profile by name with the provided data.
- */
 export async function updateProfile({
   name,
   data,
@@ -177,9 +144,6 @@ export async function updateProfile({
   return response;
 }
 
-/**
- * Fetch profiles by search query with optional pagination and limited results per page.
- */
 export async function getProfilesBySearchQuery(
   query: string,
   { page = 1, limit = 10 }: PaginationProps

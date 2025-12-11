@@ -1,57 +1,40 @@
 import { get, post, put, del } from './apiClient.ts';
 import type { BaseUser } from './authService.ts';
 
-/**
- * A media object representing an image or other media asset.
- */
 export interface Media {
   url: string;
   alt: string;
 }
 
-/**
- * Seller of a listing, extends a regular profile with wins.
- */
-
+/** Seller profile including auction wins. */
 interface Seller extends BaseUser {
   wins: string[];
 }
-
-/**
- * A bid object representing a bid on a listing.
- */
 
 export interface BidInListing {
   id: string;
   amount: number;
   bidder: BaseUser;
-  created: string; // ISO 8601 date string
+  created: string;
 }
 
-/**
- * A listing object representing an item up for auction.
- */
 export interface Listing {
   id: string;
   title: string;
   description: string | null;
   tags: string[];
   media: Media[];
-  created: string; // ISO 8601 date string
-  updated: string; // ISO 8601 time and date string
-  endsAt: string; // ISO 8601 date string
+  created: string;
+  updated: string;
+  endsAt: string;
   _count: { bids: number };
 }
 
-/**
- * A full listing object including seller and bids.
- */
 export interface FullListing extends Listing {
   seller: Seller;
   bids: BidInListing[];
 }
 
-/** Pagination metadata for paginated API responses. */
 export interface PaginationMeta {
   isFirstPage: boolean;
   isLastPage: boolean;
@@ -62,53 +45,35 @@ export interface PaginationMeta {
   totalCount: number;
 }
 
-/**
- * Response type for generic posts.
- */
 export interface PaginatedResponse<T> {
   data: T[];
   meta: PaginationMeta;
 }
 
-/**
- * Response type for single item responses.
- */
 export interface SingleResponse<T> {
   data: T;
   meta: Record<string, unknown>;
 }
 
-/**
- * Query params for pagination.
- */
 export interface PaginationProps {
   page: number;
   limit: number;
 }
 
-/**
- * Form data for creating a new listing.
- */
 export interface CreateListingFormData {
   title: string;
   description?: string | null;
   tags?: string[];
   media?: Media[];
-  endsAt: string; // ISO 8601 date string
+  endsAt: string;
 }
 
-/**
- * Response type when new listing is successfully created.
- */
 export interface CreateListingResponse {
   data: Listing;
   meta: Record<string, unknown>;
 }
 
-/**
- * Fetch full listings with pagination and limited results per page and with all available parameters (seller and bids).
- */
-
+/** Fetch listings with seller and bids included. */
 export async function getFullListings({
   page = 1,
   limit = 10,
@@ -122,10 +87,6 @@ export async function getFullListings({
   }
   return response;
 }
-
-/**
- * Fetch simple listings with pagination and limited results per page.
- */
 
 export async function getSimpleListings({
   page = 1,
@@ -141,10 +102,7 @@ export async function getSimpleListings({
   return response;
 }
 
-/**
- *
- * Fetch newest active listings with optional pagination and limited results per page.
- */
+/** Fetch active listings sorted by creation date (newest first). */
 export async function getNewestActiveListings({
   page = 1,
   limit = 10,
@@ -159,10 +117,7 @@ export async function getNewestActiveListings({
   return response;
 }
 
-/**
- *
- * Fetch newest active listings with optional pagination and limited results per page.
- */
+/** Fetch active listings sorted by creation date with seller and bids included. */
 export async function getNewestActiveFullListings({
   page = 1,
   limit = 10,
@@ -177,10 +132,6 @@ export async function getNewestActiveFullListings({
   return response;
 }
 
-/**
- *
- * Fetch active listings with optional pagination and limited results per page.
- */
 export async function getActiveListings({
   page = 1,
   limit = 10,
@@ -195,10 +146,6 @@ export async function getActiveListings({
   return response;
 }
 
-/**
- *
- * Fetch active listings by tag with optional pagination and limited results per page.
- */
 export async function getActiveListingsWithTags(
   tag: string,
   { page = 1, limit = 10 }: PaginationProps
@@ -213,10 +160,6 @@ export async function getActiveListingsWithTags(
   return response;
 }
 
-/**
- *
- * Fetch a listing by its ID.
- */
 export async function getListingById(
   listingId: string
 ): Promise<SingleResponse<Listing>> {
@@ -230,10 +173,7 @@ export async function getListingById(
   return response;
 }
 
-/**
- *
- * Fetch a full listing by its ID with included seller and bids information.
- */
+/** Fetch listing by ID with seller and bids included. */
 export async function getFullListingById(
   listingId: string
 ): Promise<SingleResponse<FullListing>> {
@@ -247,10 +187,6 @@ export async function getFullListingById(
   return response;
 }
 
-/**
- *
- * Fetch listings by search query with optional pagination and limited results per page.
- */
 export async function getListingsBySearchQuery(
   query: string,
   { page = 1, limit = 10 }: PaginationProps
@@ -263,8 +199,6 @@ export async function getListingsBySearchQuery(
   }
   return response;
 }
-
-// Create, Update, Delete Post operations
 
 export async function createListing(
   data: CreateListingFormData

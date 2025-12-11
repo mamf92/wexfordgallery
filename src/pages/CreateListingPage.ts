@@ -15,6 +15,10 @@ const BASE = import.meta.env.BASE_URL;
 const CLOSING_DATE_REGEX = /^\d{2}\.\d{2}\.\d{2}$/;
 const CLOSING_TIME_REGEX = /^([01]\d|2[0-3]):[0-5]\d$/;
 
+/**
+ * Renders the create/edit listing page.
+ * If params.id is provided, fetches and populates the form for editing.
+ */
 export async function renderCreateListingPage(
   params?: Record<string, string>
 ): Promise<HTMLElement> {
@@ -65,6 +69,9 @@ export async function renderCreateListingPage(
   return page;
 }
 
+/**
+ * Creates or updates a listing, then redirects to the listing detail page.
+ */
 async function handleListingSubmit(data: ListingFormData, listingId?: string) {
   try {
     const endsAt = parseDdMmYyHhMmToIso(data.closingDate, data.closingTime);
@@ -110,6 +117,10 @@ async function handleListingSubmit(data: ListingFormData, listingId?: string) {
   }
 }
 
+/**
+ * Parses dd.mm.yy and hh:mm inputs into an ISO string, validating format and ensuring future date.
+ * @throws {Error} If date/time format is invalid, date doesn't exist, or is not in the future
+ */
 function parseDdMmYyHhMmToIso(dateInput: string, timeInput: string): string {
   if (!CLOSING_DATE_REGEX.test(dateInput)) {
     throw new Error('Closing date must be in format dd.mm.yy');

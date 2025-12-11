@@ -10,7 +10,7 @@ import { showPageSpinner } from './components/ui/Spinners';
 const BASE = import.meta.env.BASE_URL;
 
 /**
- * Initializes the application by setting up the router and rendering the initial view.
+ * Sets up the router, renders the header and footer, and wires up navigation.
  */
 export function initializeApp() {
   const headerContainer = document.querySelector<HTMLElement>('header');
@@ -62,12 +62,10 @@ export function initializeApp() {
     );
   };
 
-  // Render header and footer once
   renderHeader(window.location.pathname);
   footerContainer.innerHTML = '';
   footerContainer.appendChild(Footer());
 
-  // Initialize router with callback to update header on navigation
   const router = new Router(routes, mainContainer, (path) => {
     renderHeader(path);
   });
@@ -76,6 +74,9 @@ export function initializeApp() {
   router.resolveRoute();
 }
 
+/**
+ * Intercepts link clicks and delegates to the router instead of performing full page reloads.
+ */
 function setupNavigation(router: Router) {
   document.addEventListener('click', (event) => {
     const target = event.target as HTMLElement;

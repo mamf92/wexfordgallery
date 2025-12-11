@@ -8,6 +8,10 @@ import { showModal } from '../components/ui/Modals';
 
 const BASE = import.meta.env.BASE_URL;
 
+/**
+ * Renders the profile edit page with a form to update bio, avatar, and banner.
+ * Redirects unauthenticated users with a warning modal.
+ */
 export async function renderEditProfilePage(): Promise<HTMLElement> {
   const page = document.createElement('div');
   page.className =
@@ -43,6 +47,9 @@ export async function renderEditProfilePage(): Promise<HTMLElement> {
   return page;
 }
 
+/**
+ * Submits profile updates to the API and redirects to the profile page on success.
+ */
 async function handleEditProfileFormSubmit(
   userName: string,
   data: ProfileFormData

@@ -8,6 +8,9 @@ interface MultipleItemsOptions {
   withDescription?: boolean;
 }
 
+/**
+ * Renders a horizontally scrollable hero carousel of listings with navigation buttons.
+ */
 export function renderMultiItemHero(
   options: MultipleItemsOptions
 ): HTMLElement | null {
@@ -17,6 +20,7 @@ export function renderMultiItemHero(
   }
   const multiItemSlider = document.createElement('div');
   multiItemSlider.className = `flex overflow-x-scroll snap-x snap-mandatory ${customScrollbar} border-wexham-dark border-b-1 w-full gap-2`;
+
   options.listings.forEach((item) => {
     const itemCard = renderSingleItemHero(item, {
       withDescription: options.withDescription,
@@ -26,9 +30,11 @@ export function renderMultiItemHero(
       multiItemSlider.appendChild(itemCard);
     }
   });
+
   const scrollButtons = document.createElement('div');
   scrollButtons.className =
     'flex max-lg:hidden gap-2 w-full justify-between absolute top-[75%] left-1/2 transform -translate-x-1/2';
+
   const leftButton = Button({
     label: '‹ Previous',
     variant: 'tertiary',
@@ -38,6 +44,7 @@ export function renderMultiItemHero(
     },
   });
   leftButton.className += ' bg-wexham-white/70';
+
   const rightButton = Button({
     label: 'Next ›',
     variant: 'tertiary',
@@ -47,6 +54,7 @@ export function renderMultiItemHero(
     },
   });
   rightButton.className += ' bg-wexham-white/70';
+
   scrollButtons.appendChild(leftButton);
   scrollButtons.appendChild(rightButton);
   multiItemSlider.appendChild(scrollButtons);

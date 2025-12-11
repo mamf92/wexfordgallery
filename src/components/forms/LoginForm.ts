@@ -3,6 +3,9 @@ import { Button } from '../ui/Buttons';
 
 const BASE = import.meta.env.BASE_URL;
 
+/**
+ * Renders a login form with email and password fields.
+ */
 export function renderLoginForm(onSubmit: (e: SubmitEvent) => void) {
   const formContainer = document.createElement('div');
   formContainer.className =

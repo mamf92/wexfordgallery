@@ -7,7 +7,8 @@ import { Button } from '../components/ui/Buttons';
 import { showInlineSpinner } from '../components/ui/Spinners';
 
 /**
- * Renders the Browse page with search functionality and pagination.
+ * Browse page with search functionality and pagination.
+ * Allows users to search listings and load more results progressively.
  */
 export function renderBrowsePage(): HTMLElement {
   const browsePageContainer = document.createElement('section');
@@ -36,7 +37,6 @@ export function renderBrowsePage(): HTMLElement {
     }
 
     try {
-      // Normalize spaces to single spaces (not %20)
       const normalizedQuery = searchQuery.trim().replace(/\s+/g, ' ');
       currentQuery = normalizedQuery;
       currentPage = 1;
@@ -49,7 +49,6 @@ export function renderBrowsePage(): HTMLElement {
       currentListings = mapListingsToThumbnails(response.data);
       paginationMeta = response.meta;
 
-      // Re-render the browse section with new results
       renderResults();
 
       if (currentListings.length === 0) {
@@ -112,7 +111,6 @@ export function renderBrowsePage(): HTMLElement {
     );
     browsePageContainer.appendChild(browseSection);
 
-    // Add load more button if there are more pages
     if (
       paginationMeta &&
       !paginationMeta.isLastPage &&
@@ -129,7 +127,6 @@ export function renderBrowsePage(): HTMLElement {
         onClick: handleLoadMore,
       });
 
-      // Override button styles for dark background
       loadMoreButton.className = loadMoreButton.className
         .replace(
           'border-wexham-dark text-wexham-dark',
@@ -155,7 +152,7 @@ export function renderBrowsePage(): HTMLElement {
 }
 
 /**
- * Maps API listings to thumbnail card format.
+ * Transforms API listing data into thumbnail card format for display.
  */
 function mapListingsToThumbnails(listings: Listing[]): ThumbnailCard[] {
   return listings.map((listing) => ({

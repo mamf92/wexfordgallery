@@ -8,7 +8,8 @@ import { showModal } from '../ui/Modals';
 const BASE = import.meta.env.BASE_URL;
 
 /**
- * Renders the user's winning listings.
+ * Displays a grid of auctions the current user has won.
+ * Shows an empty state if the user has no wins or is not authenticated.
  */
 export async function renderMyWinsSection(): Promise<HTMLElement> {
   const wins = await getWins();
@@ -51,6 +52,10 @@ export async function renderMyWinsSection(): Promise<HTMLElement> {
   return section;
 }
 
+/**
+ * Fetches winning listings for the authenticated user.
+ * Shows a warning modal if the user is not signed in.
+ */
 async function getWins(): Promise<Listing[]> {
   const userName = getUserName();
   if (!userName) {

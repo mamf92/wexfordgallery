@@ -1,3 +1,6 @@
+/**
+ * Configuration for an input field component.
+ */
 interface InputFieldProps {
   id: string;
   name: string;
@@ -11,8 +14,10 @@ interface InputFieldProps {
   max?: string;
   minLength?: number;
   maxLength?: number;
+  /** Use a predefined validation message or provide a custom string */
   title?: TitleVariants | string;
   autocomplete?: AutoFill;
+  /** Visually hide the label while keeping it accessible to screen readers */
   srOnly?: boolean;
 }
 
@@ -23,6 +28,12 @@ const TITLE_VARIANTS: Record<TitleVariants, string> = {
   EmailTitle: 'Email must be a @stud.noroff.no address',
 };
 
+/**
+ * Creates a text input field with validation and helper text.
+ *
+ * Validates on input/change and displays error messages on blur.
+ * Applies visual state classes based on validity.
+ */
 export function TextInput({
   id,
   name,

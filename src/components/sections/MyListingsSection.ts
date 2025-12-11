@@ -10,7 +10,9 @@ import { showModal } from '../ui/Modals';
 const BASE = import.meta.env.BASE_URL;
 
 /**
- * Renders the users current listings.
+ * Renders a section displaying the user's listings with edit/delete actions.
+ * If no listings are provided, fetches them from the profile API.
+ * Shows an empty state with a CTA when the user has no listings.
  */
 export async function renderMyListingsSection(
   listingsWithOptions?: {
@@ -67,6 +69,9 @@ export async function renderMyListingsSection(
   return myListingsSection;
 }
 
+/**
+ * Renders a centered empty state with a message and CTA to create the first listing.
+ */
 function renderEmptyState(): HTMLElement {
   const wrapper = document.createElement('div');
   wrapper.className =
@@ -90,6 +95,9 @@ function renderEmptyState(): HTMLElement {
   return wrapper;
 }
 
+/**
+ * Renders listings in a responsive grid layout with edit actions for each card.
+ */
 function renderMyListingsItemCards(
   listings: {
     listing: Listing;
@@ -117,6 +125,9 @@ function renderMyListingsItemCards(
   return myListingsItemsContainer;
 }
 
+/**
+ * Fetches the current user's listings (max 20) and attaches default edit/view/delete handlers.
+ */
 async function getListingsByProfile(): Promise<
   {
     listing: Listing;
@@ -151,6 +162,9 @@ function onViewListing(listingId: string) {
   window.location.href = `${BASE}listing/${listingId}`;
 }
 
+/**
+ * Deletes a listing, shows a success modal, and reloads the page after 2 seconds.
+ */
 async function onDeleteListing(listingId: string) {
   try {
     await deleteListing(listingId);

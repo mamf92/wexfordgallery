@@ -9,7 +9,8 @@ export interface ThumbnailCard {
 }
 
 /**
- * Renders a thumbnail for a listing.
+ * Creates a thumbnail card displaying listing media and title.
+ * Returns null if listing data is missing or media cannot be rendered.
  */
 export function renderThumbnail(
   listing: FullListing | Listing,
@@ -46,7 +47,7 @@ export function renderThumbnail(
 }
 
 /**
- * Render the listing title.
+ * Creates an h3 element with the listing title.
  */
 function renderThumbnailTitle(listing: FullListing | Listing): HTMLElement {
   const title = document.createElement('h3');
@@ -55,6 +56,9 @@ function renderThumbnailTitle(listing: FullListing | Listing): HTMLElement {
   return title;
 }
 
+/**
+ * Creates a paragraph element with the listing description text.
+ */
 function renderDescription(listing: Listing): HTMLElement {
   const body = document.createElement('p');
   body.className = 'font-body text-xs';

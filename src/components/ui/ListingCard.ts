@@ -20,13 +20,12 @@ interface ListingCardOptions {
   bidPreviouslyPlaced?: boolean;
   withDescription?: boolean;
   withBidsOverview?: boolean;
-  currentUserName?: string; // add
+  currentUserName?: string;
 }
 
 /**
- * Renders a listing card component.
+ * Creates a complete listing card with media, content, and bid controls.
  */
-
 export function renderListingCard(
   listing: FullListing,
   options?: ListingCardOptions
@@ -52,13 +51,9 @@ export function renderListingCard(
   return listingCard;
 }
 
-//Sections
-
 /**
- *
- * Renders the media section of the listing card.
+ * Builds media gallery with navigation for multiple images.
  */
-
 export function renderMediaSection(listing: FullListing): HTMLElement | null {
   if (!listing.media || listing.media.length === 0) {
     return null;
@@ -128,9 +123,8 @@ export function renderMediaSection(listing: FullListing): HTMLElement | null {
 }
 
 /**
- * Render the content section of the listing card.
+ * Assembles title, meta, description, bid controls, and bid list.
  */
-
 function renderContentSection(
   listing: FullListing,
   options?: {
@@ -140,7 +134,7 @@ function renderContentSection(
     bidPreviouslyPlaced?: boolean;
     withDescription?: boolean;
     withBidsOverview?: boolean;
-    currentUserName?: string; // add
+    currentUserName?: string;
   }
 ): HTMLElement {
   const content = document.createElement('div');
@@ -186,7 +180,7 @@ function renderContentSection(
 }
 
 /**
- * Renders the listing's meta information.
+ * Displays seller name and closing time.
  */
 function renderListingMeta(listing: FullListing): HTMLElement {
   const listingMeta = document.createElement('div');
@@ -204,10 +198,6 @@ function renderListingMeta(listing: FullListing): HTMLElement {
   return listingMeta;
 }
 
-/**
- * Render the listing title.
- */
-
 function renderListingTitle(listing: FullListing): HTMLElement {
   const title = document.createElement('h3');
   title.className = 'font-heading font-semibold text-2xl';
@@ -215,9 +205,6 @@ function renderListingTitle(listing: FullListing): HTMLElement {
   return title;
 }
 
-/**
- * Renders the listing description.
- */
 function renderDescription(listing: Listing): HTMLElement {
   const body = document.createElement('p');
   body.className = 'font-body text-xs';
@@ -226,9 +213,8 @@ function renderDescription(listing: Listing): HTMLElement {
 }
 
 /**
- * Renders the listing's live information including highest bid and time remaining.
+ * Shows current highest bid, refresh button, and time remaining.
  */
-
 function renderListingLiveInfo(listing: FullListing): HTMLElement {
   const liveInfo = document.createElement('div');
   liveInfo.className = 'flex flex-col gap-2 items-center py-2';
@@ -240,7 +226,6 @@ function renderListingLiveInfo(listing: FullListing): HTMLElement {
   highestBid.textContent = `Highest Bid: $${listing.bids.at(-1)?.amount || '0'}`;
   highestBidContainer.appendChild(highestBid);
 
-  // Only show refresh button if auction is still active
   if (!isAuctionEnded(listing.endsAt)) {
     const bidRefreshButton = Button({
       label: 'Refresh',
@@ -268,7 +253,7 @@ function renderListingLiveInfo(listing: FullListing): HTMLElement {
 }
 
 /**
- * Renders the bid button with callback. Returns null if auction has ended.
+ * Renders bid button with callback; hidden if auction ended or user is seller.
  */
 function renderBidButton(
   listing: FullListing,
@@ -277,7 +262,7 @@ function renderBidButton(
     onUnauthenticatedBidAttempt?: () => void;
     bidPreviouslyPlaced?: boolean;
     isAuthenticated?: boolean;
-    currentUserName?: string; // add
+    currentUserName?: string;
   }
 ): HTMLElement | null {
   if (
@@ -310,9 +295,8 @@ function renderBidButton(
 }
 
 /**
- * Renders the bid list for the listing.
+ * Lists all bids with bidder name, timestamp, and amount.
  */
-
 function renderBidList(listing: FullListing): HTMLElement {
   const bidListContainer = document.createElement('div');
   bidListContainer.className = 'flex flex-col w-full mt-2';
@@ -331,10 +315,6 @@ function renderBidList(listing: FullListing): HTMLElement {
   bidListContainer.appendChild(bidList);
   return bidListContainer;
 }
-
-/**
- * Renders a single bid item in the bid list.
- */
 
 function renderBidItem(bid: BidInListing): HTMLElement {
   const bidItem = document.createElement('li');
@@ -356,7 +336,7 @@ function renderBidItem(bid: BidInListing): HTMLElement {
 }
 
 /**
- * Renders the bid timestamp.
+ * Formats timestamp as time only (if today) or time + date.
  */
 function renderBidTimestamp(created: string): HTMLElement {
   const timeStampContainer = document.createElement('div');
@@ -384,9 +364,6 @@ function renderBidTimestamp(created: string): HTMLElement {
   return timeStampContainer;
 }
 
-/**
- * Render bid amount.
- */
 function renderBidAmount(bid: BidInListing): HTMLElement {
   const bidAmount = document.createElement('span');
   bidAmount.className =
@@ -395,12 +372,13 @@ function renderBidAmount(bid: BidInListing): HTMLElement {
   return bidAmount;
 }
 
-// Utilities for Listing Card
-
 function isAuctionEnded(endsAt: string): boolean {
   return new Date(endsAt).getTime() <= Date.now();
 }
 
+/**
+ * Returns "Auction Ended" or remaining hours and minutes.
+ */
 function formatTimeRemaining(endsAt: string): string {
   const timeDiff = new Date(endsAt).getTime() - Date.now();
 

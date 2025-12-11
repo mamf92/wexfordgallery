@@ -19,7 +19,6 @@ export function renderSearchBar(options: SearchBarOptions) {
   form.addEventListener('submit', onSubmit);
 
   if (options.filterButton) {
-    console.log('Filter button is enabled');
     const filterButton = Button({
       label: 'Filter',
       variant: 'secondary',
@@ -52,7 +51,6 @@ export function renderSearchBar(options: SearchBarOptions) {
   form.appendChild(submitButton);
 
   if (options.sortButton) {
-    console.log('Sort button is enabled');
     const sortButton = Button({
       label: 'Sort',
       variant: 'secondary',

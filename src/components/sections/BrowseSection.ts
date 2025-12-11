@@ -2,11 +2,12 @@ import { renderSectionHeader } from './Hero';
 import { renderThumbnail } from '../ui/Thumbnail';
 import type { ThumbnailCard } from '../ui/Thumbnail';
 import { renderSearchBar } from '../forms/SearchBar';
+
 /**
  * Renders the Browse section showcasing the most recent listings.
  */
 export function renderBrowseSection(
-  onSubmit: () => void,
+  onSearchSubmit: (e: SubmitEvent) => void,
   listings?: ThumbnailCard[]
 ): HTMLElement {
   const browseSection = document.createElement('section');
@@ -17,7 +18,7 @@ export function renderBrowseSection(
   browseSection.appendChild(sectionHeader);
 
   const searchBar = renderSearchBar({
-    onSubmit,
+    onSubmit: onSearchSubmit,
     onFilterButtonPress: () => console.log('Filter button pressed'),
     onSortButtonPress: () => console.log('Sort button pressed'),
     filterButton: true,
@@ -25,10 +26,11 @@ export function renderBrowseSection(
   });
   browseSection.appendChild(searchBar);
 
-  if (listings) {
+  if (listings && listings.length > 0) {
     const searchResults = renderSearchResults(listings);
     browseSection.appendChild(searchResults);
   }
+
   return browseSection;
 }
 

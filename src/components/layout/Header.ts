@@ -1,5 +1,6 @@
 import { LinkButton } from '../ui/Buttons';
 import { Button } from '../ui/Buttons';
+import { getCreditsForHeader } from '../../auth/ProfileState';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -19,12 +20,13 @@ export function Header(options: HeaderOptions): HTMLElement {
   const headerContainer = document.createElement('header');
   headerContainer.innerHTML = '';
 
-  const renderAppropriateHeader = () => {
+  const renderAppropriateHeader = async () => {
     headerContainer.innerHTML = '';
     if (window.innerWidth < 768) {
-      headerContainer.appendChild(renderMobileHeader(options));
+      headerContainer.appendChild(await renderMobileHeader(options));
     } else {
-      headerContainer.appendChild(renderDesktopHeader(options));
+      const desktopHeader = await renderDesktopHeader(options);
+      headerContainer.appendChild(desktopHeader);
     }
   };
 
@@ -35,7 +37,9 @@ export function Header(options: HeaderOptions): HTMLElement {
   return headerContainer;
 }
 
-function renderMobileHeader(options: HeaderOptions): HTMLElement {
+async function renderMobileHeader(
+  options: HeaderOptions
+): Promise<HTMLElement> {
   const { isAuthenticated, userName, onLogout } = options;
   const headerContent = document.createElement('div');
   headerContent.className =
@@ -52,14 +56,20 @@ function renderMobileHeader(options: HeaderOptions): HTMLElement {
   );
   headerContent.appendChild(profileButton);
 
-  // You can add a hamburger menu for navigation later
-  // const hamburger = createHamburgerMenu(currentPage, headerContent);
-  // headerContent.appendChild(hamburger);
+  if (isAuthenticated) {
+    const wrapper = document.createElement('div');
+    wrapper.appendChild(headerContent);
+    const creditsBar = await renderCreditsBar(userName);
+    wrapper.appendChild(creditsBar);
+    return wrapper;
+  }
 
   return headerContent;
 }
 
-function renderDesktopHeader(options: HeaderOptions): HTMLElement {
+async function renderDesktopHeader(
+  options: HeaderOptions
+): Promise<HTMLElement> {
   const { isAuthenticated, userName, currentPage, onLogout } = options;
 
   const headerContent = document.createElement('div');
@@ -83,7 +93,33 @@ function renderDesktopHeader(options: HeaderOptions): HTMLElement {
   profileButton.setAttribute('aria-haspopup', 'true');
   headerContent.appendChild(profileButton);
 
+  if (isAuthenticated) {
+    const wrapper = document.createElement('div');
+    wrapper.appendChild(headerContent);
+    const creditsBar = await renderCreditsBar(userName);
+    wrapper.appendChild(creditsBar);
+    return wrapper;
+  }
+
   return headerContent;
+}
+
+async function renderCreditsBar(userName: string): Promise<HTMLElement> {
+  const creditsBar = document.createElement('div');
+  creditsBar.className =
+    'w-full h-8 bg-wexham-white border-t border-wexham-light flex items-center justify-end pr-4';
+
+  try {
+    const credits = await getCreditsForHeader(userName);
+    const creditsText = document.createElement('span');
+    creditsText.className = 'text-wexham-dark font-semibold';
+    creditsText.textContent = `${credits} credits`;
+    creditsBar.appendChild(creditsText);
+  } catch (error) {
+    console.error('Failed to fetch credits:', error);
+  }
+
+  return creditsBar;
 }
 
 function createLogo(): HTMLElement {

@@ -20,6 +20,7 @@ interface ListingCardOptions {
   bidPreviouslyPlaced?: boolean;
   withDescription?: boolean;
   withBidsOverview?: boolean;
+  currentUserName?: string; // add
 }
 
 /**
@@ -139,6 +140,7 @@ function renderContentSection(
     bidPreviouslyPlaced?: boolean;
     withDescription?: boolean;
     withBidsOverview?: boolean;
+    currentUserName?: string; // add
   }
 ): HTMLElement {
   const content = document.createElement('div');
@@ -165,6 +167,7 @@ function renderContentSection(
     onUnauthenticatedBidAttempt: options?.onUnauthenticatedBidAttempt,
     bidPreviouslyPlaced: options?.bidPreviouslyPlaced,
     isAuthenticated: options?.isAuthenticated,
+    currentUserName: options?.currentUserName,
   });
   if (bidButton) {
     content.appendChild(bidButton);
@@ -274,10 +277,13 @@ function renderBidButton(
     onUnauthenticatedBidAttempt?: () => void;
     bidPreviouslyPlaced?: boolean;
     isAuthenticated?: boolean;
+    currentUserName?: string; // add
   }
 ): HTMLElement | null {
-  // Skip rendering bid button if auction has ended
-  if (isAuctionEnded(listing.endsAt)) {
+  if (
+    isAuctionEnded(listing.endsAt) ||
+    listing.seller.name === options?.currentUserName
+  ) {
     return null;
   }
 

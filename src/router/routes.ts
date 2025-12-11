@@ -6,17 +6,19 @@ import { renderSingleListingPage } from '../pages/SingleListingPage';
 import { renderProfilePage } from '../pages/ProfilePage';
 import { renderEditProfilePage } from '../pages/EditProfilePage';
 import { renderCreateListingPage } from '../pages/CreateListingPage';
+import { renderBrowsePage } from '../pages/BrowsePage';
 
 export const routes = {
   '/': () => renderHomePage(),
   '/test': () => renderTestPage(),
   '/login': () => renderLoginPage(),
   '/register': () => renderRegistrationPage(),
-  '/explore': () => '<div>Explore page (todo)</div>',
-  '/popular': () => '<div>Popular page (todo)</div>',
+  '/explore': () => renderBrowsePage(),
   '/profile': () => renderProfilePage(),
   '/edit-profile': () => renderEditProfilePage(),
   '/listing/:id': (params?: Record<string, string>) =>
     renderSingleListingPage(params),
   '/create-listing': () => renderCreateListingPage(),
+  '/edit-listing/:id': (params?: Record<string, string>) =>
+    renderCreateListingPage(params),
 };

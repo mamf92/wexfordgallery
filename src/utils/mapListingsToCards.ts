@@ -8,6 +8,7 @@ export type MakeCardsArgs = {
   onBidButtonPress?: (id: string, bidButton: HTMLElement) => void;
   onUnauthenticatedBidAttempt?: () => void;
   bidPreviouslyPlaced?: boolean;
+  currentUserName?: string;
 };
 
 export function makeListingCards({
@@ -17,6 +18,7 @@ export function makeListingCards({
   onBidButtonPress,
   onUnauthenticatedBidAttempt,
   bidPreviouslyPlaced,
+  currentUserName,
 }: MakeCardsArgs): ListingCard[] {
   return listings.map((listing) => ({
     listing,
@@ -26,6 +28,7 @@ export function makeListingCards({
       onBidButtonPress,
       onUnauthenticatedBidAttempt,
       bidPreviouslyPlaced,
+      currentUserName,
     },
   }));
 }

@@ -30,11 +30,30 @@ export async function renderMyListingsSection(
   const myListingsSection = document.createElement('section');
   myListingsSection.className =
     'flex flex-col my-4 gap-4 w-full flex items-center justify-center';
-
-  const sectionHeader = renderSectionHeader(
+  const sectionHeader = document.createElement('div');
+  sectionHeader.className = 'flex items-center justify-between w-full px-4';
+  const sectionHeading = renderSectionHeader(
     'Your Listings',
     'View your current listings and manage them easily.'
   );
+  sectionHeader.appendChild(sectionHeading);
+  const createListingButton = Button({
+    label: 'Create New Listing',
+    size: 'large',
+    variant: 'primary',
+    onClick: () => {
+      window.location.href = `${BASE}create-listing`;
+    },
+  });
+  createListingButton.classList.add(
+    'max-h-min',
+    'whitespace-nowrap',
+    'text-wexham-white',
+    'border-wexham-white',
+    'hover:bg-wexham-light',
+    'hover:text-wexham-light'
+  );
+  sectionHeader.appendChild(createListingButton);
   myListingsSection.appendChild(sectionHeader);
 
   if (!listings || listings.length === 0) {

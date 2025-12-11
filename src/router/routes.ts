@@ -5,7 +5,7 @@ import { renderRegistrationPage } from '../pages/RegistrationPage';
 import { renderSingleListingPage } from '../pages/SingleListingPage';
 import { renderProfilePage } from '../pages/ProfilePage';
 import { renderEditProfilePage } from '../pages/EditProfilePage';
-// import { renderEditListingPage } from '../pages/EditListingPage';
+import { renderCreateListingPage } from '../pages/CreateListingPage';
 
 export const routes = {
   '/': () => renderHomePage(),
@@ -18,6 +18,5 @@ export const routes = {
   '/edit-profile': () => renderEditProfilePage(),
   '/listing/:id': (params?: Record<string, string>) =>
     renderSingleListingPage(params),
-  // '/edit-listing/:id': (params?: Record<string, string>) =>
-  //   renderEditListingPage(params),
+  '/create-listing': () => renderCreateListingPage(),
 };

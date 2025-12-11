@@ -14,7 +14,6 @@ export function renderHeroSection({
   items,
 }: HeroSectionProps): HTMLElement {
   const heroSection = document.createElement('section');
-  console.log('rendering hero section with items:', items);
   heroSection.className =
     'flex flex-col gap-4 w-full flex items-center justify-center';
   const sectionHeader = renderSectionHeader(heading, subheading);

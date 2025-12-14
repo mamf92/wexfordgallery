@@ -1,6 +1,6 @@
 # The Wexford Gallery Auction House Project
 
-![The Wexford Gallery Banner](link)
+![The Wexford Gallery Banner](https://github.com/mamf92/wexfordgallery/blob/main/src/assets/banner/banner.png?raw=true)
 
 ---
 
@@ -125,8 +125,7 @@ npm run format #Checks and formats code --write
 
 ### 🌐 Live Demo
 
-👉 [https://mamf92.github.io/wexfordgallery/](https://mamf92.github.io/wexfordgallery/)  
-_(placeholder – will update once deployed)_
+👉 [https://mamf92.github.io/wexfordgallery/](https://mamf92.github.io/wexfordgallery/)
 
 ---
 

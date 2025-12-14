@@ -1,6 +1,6 @@
 # The Wexford Gallery Auction House Project
 
-![The Wexford Gallery Banner](https://github.com/mamf92/wexhamwexfordgallery/blob/main/src/assets/banner/banner.png?raw=true)
+![The Wexford Gallery Banner](https://github.com/mamf92/wexfordgallery/blob/main/src/assets/banner/banner.png?raw=true)
 
 ---
 

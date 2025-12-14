@@ -1,6 +1,10 @@
 import type { Profile } from '../../api/profilesService';
 import { Button } from './Buttons';
 
+/**
+ * Renders a profile card with banner, avatar, username, bio, and edit button.
+ * Returns null if profile is invalid.
+ */
 export function renderProfileCard(
   profile: Profile,
   onEditClick: (profileName: string) => void
@@ -41,6 +45,10 @@ export function renderProfileCard(
   return profileCard;
 }
 
+/**
+ * Creates a banner image element from profile data.
+ * Returns null if banner URL is missing.
+ */
 function renderBanner(profile: Profile): HTMLElement | null {
   if (!profile || !profile.banner.url) {
     return null;
@@ -51,6 +59,11 @@ function renderBanner(profile: Profile): HTMLElement | null {
   bannerImg.className = 'w-full h-48 object-cover';
   return bannerImg;
 }
+
+/**
+ * Creates a circular avatar image element from profile data.
+ * Returns null if avatar URL is missing.
+ */
 function renderAvatar(profile: Profile): HTMLElement | null {
   if (!profile || !profile.avatar.url) {
     return null;
@@ -62,6 +75,9 @@ function renderAvatar(profile: Profile): HTMLElement | null {
   return avatarImg;
 }
 
+/**
+ * Creates a heading element displaying the profile username.
+ */
 function renderUsername(profile: Profile): HTMLElement {
   const username = document.createElement('h2');
   username.className = 'font-heading text-lg text-wexham-dark uppercase';
@@ -69,6 +85,9 @@ function renderUsername(profile: Profile): HTMLElement {
   return username;
 }
 
+/**
+ * Creates an edit button that triggers the provided callback with the profile name.
+ */
 function renderEditButton(
   profile: Profile,
   onEditClick: (profileName: string) => void
@@ -85,6 +104,10 @@ function renderEditButton(
   return editButton;
 }
 
+/**
+ * Creates a paragraph element displaying the profile bio.
+ * Returns null if bio is not provided.
+ */
 function renderBio(profile: Profile): HTMLElement | null {
   if (!profile.bio) {
     return null;

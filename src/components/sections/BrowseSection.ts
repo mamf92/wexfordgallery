@@ -4,7 +4,8 @@ import type { ThumbnailCard } from '../ui/Thumbnail';
 import { renderSearchBar } from '../forms/SearchBar';
 
 /**
- * Renders the Browse section showcasing the most recent listings.
+ * Renders a browse section with search functionality and listing results.
+ * Displays search bar with optional filter/sort buttons and a grid of thumbnails.
  */
 export function renderBrowseSection(
   onSearchSubmit: (e: SubmitEvent) => void,
@@ -19,8 +20,12 @@ export function renderBrowseSection(
 
   const searchBar = renderSearchBar({
     onSubmit: onSearchSubmit,
-    onFilterButtonPress: () => console.log('Filter button pressed'),
-    onSortButtonPress: () => console.log('Sort button pressed'),
+    onFilterButtonPress: () => {
+      // No-op: filter functionality not implemented yet
+    },
+    onSortButtonPress: () => {
+      // No-op: sort functionality not implemented yet
+    },
     filterButton: true,
     sortButton: true,
   });
@@ -34,6 +39,9 @@ export function renderBrowseSection(
   return browseSection;
 }
 
+/**
+ * Creates a responsive grid container displaying listing thumbnails.
+ */
 function renderSearchResults(listings: ThumbnailCard[]): HTMLElement {
   const searchResultsContainer = document.createElement('div');
   searchResultsContainer.className =

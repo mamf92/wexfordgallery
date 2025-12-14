@@ -1,3 +1,13 @@
+/**
+ * Tailwind utility classes for styling webkit scrollbars.
+ * Apply to elements with overflow to get a custom scrollbar appearance.
+ *
+ * @example
+ * ```ts
+ * const container = document.createElement('div');
+ * container.className = `overflow-y-auto ${customScrollbar}`;
+ * ```
+ */
 export const customScrollbar = [
   // Basic sizing - thin but not too thin
   '[&::-webkit-scrollbar]:w-2',

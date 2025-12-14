@@ -1,5 +1,8 @@
 import { renderEmailListForm } from '../forms/EmailListForm';
 
+/**
+ * Creates the main footer component with contact info, links, socials, and newsletter signup.
+ */
 export function Footer() {
   const footerContainer = document.createElement('div');
   footerContainer.className = 'w-full py-24 px-14  bg-wexham-white';
@@ -8,6 +11,9 @@ export function Footer() {
   return footerContainer;
 }
 
+/**
+ * Arranges footer sections in a responsive grid layout.
+ */
 function renderFooterContent() {
   const content = document.createElement('div');
 
@@ -31,6 +37,9 @@ function renderFooterContent() {
   return content;
 }
 
+/**
+ * Renders social media links and newsletter signup section.
+ */
 function createSocials() {
   const socialsContainer = document.createElement('div');
   socialsContainer.className = 'flex flex-col w-full items-start gap-6';
@@ -62,6 +71,9 @@ const SOCIAL_LINKS: SocialLink[] = [
   },
 ];
 
+/**
+ * Builds clickable social media icons from SOCIAL_LINKS.
+ */
 function createSocialLinks() {
   const socialLinksContainer = document.createElement('div');
   socialLinksContainer.className = 'flex flex-col items-start gap-2';
@@ -86,6 +98,9 @@ function createSocialLinks() {
   return socialLinksContainer;
 }
 
+/**
+ * Renders newsletter signup heading and form.
+ */
 function createNewsletterForm() {
   const form = document.createElement('div');
   form.className = 'flex flex-col w-full items-start gap-2';
@@ -96,16 +111,15 @@ function createNewsletterForm() {
   form.appendChild(newsLetterHeading);
   const emailListForm = renderEmailListForm((e: SubmitEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    const formData = new FormData(e.target as HTMLFormElement);
-    const email = formData.get('email');
-    console.log('Newsletter signup email:', email);
   });
   form.appendChild(emailListForm);
 
   return form;
 }
 
+/**
+ * Displays gallery name, address, and contact email.
+ */
 function createContactInfo() {
   const contactInfoContainer = document.createElement('div');
   contactInfoContainer.className = 'flex flex-col gap-6';
@@ -142,6 +156,9 @@ function createContactInfo() {
   return contactInfoContainer;
 }
 
+/**
+ * Creates two columns of navigation and informational links.
+ */
 function createLinks() {
   const linksContainer = document.createElement('div');
   linksContainer.className =
@@ -183,6 +200,9 @@ function createLinks() {
   return linksContainer;
 }
 
+/**
+ * Renders copyright notice with top border.
+ */
 function createCopyright() {
   const copyrightContainer = document.createElement('div');
   copyrightContainer.className =

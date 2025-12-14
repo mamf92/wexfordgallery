@@ -22,6 +22,9 @@ interface LinkButtonProps extends ButtonBaseProps {
   href: string;
 }
 
+/**
+ * Generates combined Tailwind class names for button styling.
+ */
 export function buttonClassNames(
   size: ButtonSize = 'medium',
   variant: ButtonVariant = 'primary'
@@ -29,6 +32,9 @@ export function buttonClassNames(
   return `${BASE} ${BUTTON_VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]}`;
 }
 
+/**
+ * Creates a styled button element with optional icons and click handler.
+ */
 export function Button({
   label,
   variant = 'primary',
@@ -53,13 +59,15 @@ export function Button({
   if (onlyIcon) {
     btn.textContent = '';
     btn.innerHTML = ICONS[onlyIcon];
-    console.log(btn.innerHTML);
     btn.ariaLabel = label;
   }
   if (onClick) btn.addEventListener('click', onClick);
   return btn;
 }
 
+/**
+ * Creates a styled anchor element that looks like a button.
+ */
 export function LinkButton({
   label,
   size = 'medium',

@@ -3,7 +3,7 @@ import { TextArea } from '../inputs/TextArea';
 import { Button } from '../ui/Buttons';
 import type { Listing, Media } from '../../api/listingsService';
 
-const CLOSING_DATE_PATTERN = '^\\d{2}\\.\\d{2}\\.\\d{2}$'; // dd.mm.yy
+const CLOSING_DATE_PATTERN = '^\\d{2}\\.\\d{2}\\.\\d{2}$';
 
 export interface ListingFormData {
   title: string;
@@ -20,9 +20,6 @@ interface ListingProps {
   listing?: Listing;
 }
 
-/**
- * Validates if a date string in dd.mm.yy format is a real date
- */
 function isValidDate(dateStr: string): boolean {
   if (!/^\d{2}\.\d{2}\.\d{2}$/.test(dateStr)) return false;
 
@@ -37,9 +34,6 @@ function isValidDate(dateStr: string): boolean {
   );
 }
 
-/**
- * Validates if a time string in hh:mm format is valid
- */
 function isValidTime(timeStr: string): boolean {
   if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(timeStr)) return false;
 
@@ -47,9 +41,6 @@ function isValidTime(timeStr: string): boolean {
   return hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59;
 }
 
-/**
- * Validates if date and time combination is in the future
- */
 function isDateTimeInFuture(
   dateStr: string,
   timeStr: string
@@ -85,9 +76,7 @@ function isDateTimeInFuture(
 }
 
 /**
- * Renders the listing form.
- * @param listingData - Form configuration and existing listing data
- * @returns The form container element
+ * Renders a form for creating or updating auction listings.
  */
 export function renderListingForm({
   isUpdate,
@@ -98,7 +87,6 @@ export function renderListingForm({
   formContainer.className =
     'flex flex-col w-[90vw] bg-wexham-white px-8 py-6 border-wexham-dark border-y-1 lg:border-y-2 lg:max-w-[42.5rem] gap-4';
 
-  // Form title and description
   const formTitle = document.createElement('h1');
   formTitle.className = 'text-2xl lg:text-3xl font-semibold font-heading';
   formTitle.textContent = isUpdate
@@ -116,7 +104,7 @@ export function renderListingForm({
   const form = document.createElement('form');
   form.id = 'listing-form';
   form.className = 'flex flex-col gap-6 w-full';
-  form.noValidate = true; // Use custom validation
+  form.noValidate = true;
 
   const titleInput = TextInput({
     id: 'listing-title',
@@ -162,7 +150,6 @@ export function renderListingForm({
   closingDateInput.classList.add('w-full');
   form.appendChild(closingDateInput);
 
-  // Add time input
   const closingTimeInput = TextInput({
     id: 'listing-closing-time',
     name: 'closingTime',
@@ -177,13 +164,11 @@ export function renderListingForm({
   closingTimeInput.classList.add('w-full');
   form.appendChild(closingTimeInput);
 
-  // Error message container for date/time validation
   const dateTimeError = document.createElement('div');
   dateTimeError.className = 'text-red-600 text-sm font-body hidden';
   dateTimeError.setAttribute('role', 'alert');
   form.appendChild(dateTimeError);
 
-  // Add real-time validation for date/time combination
   const validateDateTime = () => {
     const dateInput = form.querySelector<HTMLInputElement>(
       '#listing-closing-date'

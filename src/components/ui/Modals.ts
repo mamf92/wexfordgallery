@@ -1,19 +1,18 @@
 import { Button } from './Buttons';
-// Props for the popup component
+
 type IconVariants = 'error' | 'warning' | 'success' | 'questionmark';
 
-// Props for the popup component
 interface ModalProps {
   title: string;
   message: string;
   icon: IconVariants;
 }
-// Props for the confirmation popup component
+
 interface ConfirmationModalProps extends ModalProps {
   confirmationLabel?: string;
   cancellationLabel?: string;
 }
-// SVG icons for different variants
+
 const ICONS: Record<IconVariants, string> = {
   error:
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="h-41 max-sm:h-37 w-41 max-sm:w-37" fill="#8F2B16"><path d="M333.08-311.08 480-458l146.92 146.92 22-22L502-480l146.92-146.92-22-22L480-502 333.08-648.92l-22 22L458-480 311.08-333.08l22 22ZM480.13-120q-74.44 0-139.79-28.34t-114.48-77.42q-49.13-49.08-77.49-114.37Q120-405.42 120-479.87q0-74.67 28.34-140.41 28.34-65.73 77.42-114.36 49.08-48.63 114.37-76.99Q405.42-840 479.87-840q74.67 0 140.41 28.34 65.73 28.34 114.36 76.92 48.63 48.58 76.99 114.26Q840-554.81 840-480.13q0 74.44-28.34 139.79t-76.92 114.48q-48.58 49.13-114.26 77.49Q554.81-120 480.13-120Zm-.13-30.77q137.38 0 233.31-96.04 95.92-96.04 95.92-233.19 0-137.38-95.92-233.31-95.93-95.92-233.31-95.92-137.15 0-233.19 95.92-96.04 95.93-96.04 233.31 0 137.15 96.04 233.19 96.04 96.04 233.19 96.04ZM480-480Z"/></svg>',
@@ -26,13 +25,9 @@ const ICONS: Record<IconVariants, string> = {
 };
 
 /**
- * Displays a popup with a message and title
- * @param title - The title of the popup
- * @param message - The message to display
- * @param icon - The icon variant to use (error, warning, success)
- * @return The popup HTML element
+ * Displays a centered modal overlay with title, message, and close button.
+ * Appends to document.body and removes itself on close.
  */
-
 export function showModal({ title, message, icon }: ModalProps): HTMLElement {
   const Modal = document.createElement('div');
   Modal.className =
@@ -55,7 +50,7 @@ export function showModal({ title, message, icon }: ModalProps): HTMLElement {
 
   const ModalIconContainer = document.createElement('div');
   ModalIconContainer.className = 'flex justify-center';
-  ModalIconContainer.innerHTML = ICONS[icon]; // no extra <svg>
+  ModalIconContainer.innerHTML = ICONS[icon];
 
   const ModalActions = document.createElement('div');
   ModalActions.className =
@@ -82,13 +77,9 @@ export function showModal({ title, message, icon }: ModalProps): HTMLElement {
 }
 
 /**
- * Displays a confirmation popup with the given title, message, and icon.
- * @param title - The title of the confirmation popup
- * @param message - The message to display in the confirmation popup
- * @param icon - The icon variant to use (error, warning, success)
- * @returns {Promise<boolean>} Promise that resolves to true if user confirms, false if user cancels
+ * Displays a confirmation modal with confirm/cancel buttons.
+ * Returns a promise that resolves to user's choice.
  */
-
 export function requestConfirmation({
   title,
   message,
@@ -117,6 +108,7 @@ export function requestConfirmation({
     const ConfirmationModalMessage = document.createElement('p');
     ConfirmationModalMessage.className = 'font-body text-md sm:text-lg';
     ConfirmationModalMessage.textContent = message;
+
     const ConfirmationModalIconContainer = document.createElement('div');
     ConfirmationModalIconContainer.className =
       'flex justify-center h-[9.25rem]';

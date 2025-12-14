@@ -1,7 +1,7 @@
 import type { LoginData } from '../api/authService';
 
 /**
- * Return on validation errors
+ * Validation error details for authentication forms
  */
 interface AuthValidationError {
   field?: 'name' | 'email' | 'password';
@@ -9,9 +9,10 @@ interface AuthValidationError {
 }
 
 /**
- * Validates login form data including email and password requirements
+ * Validates login credentials against Noroff email and password requirements
+ *
+ * @returns Error details if validation fails, null if valid
  */
-
 export function validateLoginData(data: LoginData): AuthValidationError | null {
   if (!data.email || !data.password) {
     return {

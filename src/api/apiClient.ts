@@ -1,24 +1,12 @@
 const BASE_URL = 'https://v2.api.noroff.dev';
 
-/**
- * Options for configuring API requests.
- */
 interface ApiOptions {
-  /**
-   * Optional request body data.
-   */
   body?: unknown;
-  /**
-   * HTTP method for the request. Defaults to 'GET' or 'POST' based on presence of body.
-   */
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
-  /**
-   * Optional custom headers for the request.
-   */
   headers?: Record<string, string>;
   /**
    * Indicates if the request requires authentication.
-   * Defaults to true.
+   * @default true
    */
   requiresAuth?: boolean;
 }
@@ -35,10 +23,8 @@ export interface ApiError {
 
 /**
  * Custom error class for API client errors.
- * Extends the built-in Error class to include API error details and status code.
- * Helps in handling and debugging API-related issues and displaying user-friendly messages.
+ * Includes API error details and status code for better error handling and debugging.
  */
-
 export class ApiClientError extends Error {
   public apiError: ApiError;
   public statusCode: number;
@@ -54,7 +40,6 @@ export class ApiClientError extends Error {
 /**
  * Generic API client for making HTTP requests to the Noroff API.
  */
-
 async function apiClient<T = unknown>(
   endpoint: string,
   options: ApiOptions = {}
@@ -95,7 +80,6 @@ async function apiClient<T = unknown>(
   try {
     const response = await fetch(BASE_URL + endpoint, config);
 
-    // Handles non-OK responses either by parsing the error body or creating a generic error
     if (!response.ok) {
       let errorData: ApiError;
       try {
@@ -110,7 +94,6 @@ async function apiClient<T = unknown>(
       throw new ApiClientError(errorData, response.status);
     }
 
-    // If no content, return null
     if (response.status === 204) {
       return null;
     }
@@ -128,7 +111,6 @@ async function apiClient<T = unknown>(
 /**
  * Send a GET request.
  */
-
 export const get = <T = unknown>(endpoint: string, requiresAuth = true) =>
   apiClient<T>(endpoint, { requiresAuth });
 

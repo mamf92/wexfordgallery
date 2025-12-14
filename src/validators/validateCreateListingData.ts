@@ -1,17 +1,14 @@
 import type { CreateListingFormData } from '../api/listingsService.ts';
 
-/**
- * Return on validation errors
- */
 interface ListingValidationError {
   field?: 'title' | 'description' | 'tags' | 'media';
   message: string;
 }
 
 /**
- * Validates the data for creating a new listing.
+ * Validates create listing form data against business rules.
+ * Returns an error object if validation fails, null if all checks pass.
  */
-
 export function validateCreateListingData(
   data: CreateListingFormData
 ): ListingValidationError | null {

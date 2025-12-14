@@ -7,6 +7,11 @@ import { showModal } from '../components/ui/Modals';
 
 const BASE = import.meta.env.BASE_URL;
 
+/**
+ * Renders the user's profile page with their information, active listings, and wins.
+ * Displays a warning modal and returns an empty container if the user is not authenticated.
+ * Shows an error modal if the profile data cannot be loaded.
+ */
 export async function renderProfilePage(): Promise<HTMLElement> {
   const page = document.createElement('div');
   page.className =

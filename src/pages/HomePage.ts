@@ -17,6 +17,9 @@ import { showInlineSpinner } from '../components/ui/Spinners';
 
 const BASE = import.meta.env.BASE_URL;
 
+/**
+ * Renders the home page with hero section and paginated latest listings.
+ */
 export async function renderHomePage() {
   const homeViewContainer = document.createElement('section');
   homeViewContainer.className =
@@ -26,7 +29,6 @@ export async function renderHomePage() {
   let currentPage = 1;
   let paginationMeta: PaginationMeta | null = null;
 
-  // Render hero section
   homeViewContainer.appendChild(
     renderHeroSection({
       heading: 'Watches',
@@ -38,7 +40,6 @@ export async function renderHomePage() {
     })
   );
 
-  // Load initial latest listings
   const initialData = await loadLatestListings(1);
   latestListings = initialData.cards;
   paginationMeta = initialData.meta;
@@ -73,14 +74,12 @@ export async function renderHomePage() {
   };
 
   const renderLatestResults = () => {
-    // Find and remove existing latest section
     const existingLatest =
       homeViewContainer.querySelector('section:last-child');
     if (existingLatest) {
       existingLatest.remove();
     }
 
-    // Re-render with updated listings
     homeViewContainer.appendChild(
       renderLatestSection(
         latestListings,
@@ -90,7 +89,6 @@ export async function renderHomePage() {
     );
   };
 
-  // Render initial latest section
   homeViewContainer.appendChild(
     renderLatestSection(
       latestListings,
@@ -102,6 +100,9 @@ export async function renderHomePage() {
   return homeViewContainer;
 }
 
+/**
+ * Fetches paginated latest listings and converts them to card format with bid handlers.
+ */
 async function loadLatestListings(
   page: number
 ): Promise<{ cards: ListingCard[]; meta: PaginationMeta }> {
@@ -123,6 +124,9 @@ async function loadLatestListings(
   return { cards, meta: response.meta };
 }
 
+/**
+ * Replaces bid button with bid form for authenticated users.
+ */
 async function handleBid(listingId: string, bidButton: HTMLElement) {
   const userName = getUserName();
   if (!userName) {
@@ -144,6 +148,9 @@ async function handleBid(listingId: string, bidButton: HTMLElement) {
   }
 }
 
+/**
+ * Submits bid and redirects to listing detail page.
+ */
 async function handleBidSubmit(e: SubmitEvent, listingId: string) {
   e.preventDefault();
   const form = e.target as HTMLFormElement;
@@ -154,6 +161,9 @@ async function handleBidSubmit(e: SubmitEvent, listingId: string) {
   handlePlacedBid(listingId);
 }
 
+/**
+ * Shows success modal and navigates to listing page.
+ */
 function handlePlacedBid(listingId: string) {
   showModal({
     title: 'Bid Placed',
@@ -165,6 +175,9 @@ function handlePlacedBid(listingId: string) {
   }, 2000);
 }
 
+/**
+ * Prompts unauthenticated users to log in before bidding.
+ */
 function handleUnauthenticatedBid() {
   requestConfirmation({
     title: 'Authentication Required',

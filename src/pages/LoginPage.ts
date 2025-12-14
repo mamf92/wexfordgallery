@@ -6,6 +6,9 @@ import { ApiClientError } from '../api/apiClient';
 
 const BASE = import.meta.env.BASE_URL;
 
+/**
+ * Renders the login page with centered form layout.
+ */
 export function renderLoginPage() {
   const loginViewContainer = document.createElement('div');
   loginViewContainer.className =
@@ -15,8 +18,7 @@ export function renderLoginPage() {
 }
 
 /**
- * Handles the login form submission
- * @param event - The submit event
+ * Authenticates user and redirects to home on success.
  */
 export async function handleLoginFormSubmit(event: SubmitEvent) {
   event.preventDefault();

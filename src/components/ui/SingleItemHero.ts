@@ -2,6 +2,9 @@ import type { FullListing, Listing } from '../../api/listingsService';
 
 const BASE = import.meta.env.BASE_URL;
 
+/**
+ * Renders a hero section for a single listing item with optional description.
+ */
 export function renderSingleItemHero(
   listing: FullListing | Listing,
   options?: {
@@ -33,6 +36,9 @@ export function renderSingleItemHero(
   return singleItemContainer;
 }
 
+/**
+ * Creates a clickable media section with the listing's first image.
+ */
 function renderMediaSection(
   listing: FullListing | Listing
 ): HTMLElement | null {
@@ -55,11 +61,9 @@ function renderMediaSection(
   }
 }
 
-//
 /**
- * Render the listing title.
+ * Creates a heading element with the listing title.
  */
-
 function renderSingleItemTitle(listing: FullListing | Listing): HTMLElement {
   const title = document.createElement('h3');
   title.className =
@@ -69,9 +73,8 @@ function renderSingleItemTitle(listing: FullListing | Listing): HTMLElement {
 }
 
 /**
- * Render the listing description.
+ * Creates a paragraph element with the listing description.
  */
-
 function renderSingleItemDescription(
   listing: FullListing | Listing
 ): HTMLElement {

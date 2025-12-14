@@ -1,6 +1,11 @@
 import { TextInput } from '../inputs/InputField';
 import { Button } from '../ui/Buttons';
 
+/**
+ * Creates an email subscription form with validation.
+ * @param onSubmit - Handler called when the form is submitted
+ * @returns Form container element
+ */
 export function renderEmailListForm(onSubmit: (e: SubmitEvent) => void) {
   const formContainer = document.createElement('div');
   formContainer.className = 'flex flex-col w-full bg-wexham-white';

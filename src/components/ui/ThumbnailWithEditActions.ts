@@ -3,11 +3,9 @@ import { Button } from './Buttons';
 const BASE = import.meta.env.BASE_URL;
 
 /**
- * Creates the edit post form by displaying the post as values in the form.
- * @param post - The post in which the user wants to edit
- * @returns - The HTML string for the edit post form.
+ * Renders a listing card with edit, view, and delete action buttons.
+ * Returns null if the listing data is invalid.
  */
-
 export function renderListingCardWithEditActions(
   listing: Listing,
   options?: {
@@ -39,7 +37,10 @@ export function renderListingCardWithEditActions(
   return listingCard;
 }
 
-// Sections
+/**
+ * Creates a clickable image section linking to the listing detail page.
+ * Returns null if no media is available.
+ */
 function renderMediaSection(listing: Listing): HTMLElement | null {
   if (!listing.media || listing.media.length === 0) {
     return null;
@@ -59,6 +60,9 @@ function renderMediaSection(listing: Listing): HTMLElement | null {
   return mediaLink;
 }
 
+/**
+ * Renders the title and description section of the listing card.
+ */
 function renderContentSection(listing: Listing): HTMLElement {
   const contentSection = document.createElement('div');
   contentSection.className =
@@ -84,6 +88,10 @@ function renderDescription(listing: Listing): HTMLElement {
   return body;
 }
 
+/**
+ * Renders action buttons for editing, viewing, and deleting the listing.
+ * Callbacks are triggered when buttons are clicked.
+ */
 function renderEditActions(
   listing: Listing,
   options?: {

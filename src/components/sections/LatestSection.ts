@@ -4,7 +4,11 @@ import type { ListingCard } from '../ui/ListingCard';
 import { Button } from '../ui/Buttons';
 
 /**
- * Renders the Latest section showcasing the most recent listings.
+ * Renders a section displaying the most recent listings with an optional load more button.
+ * @param listings - Array of listing cards to display
+ * @param onLoadMore - Callback invoked when the load more button is clicked
+ * @param showLoadMore - Controls load more button visibility
+ * @throws When listings array is empty or null
  */
 export function renderLatestSection(
   listings: ListingCard[] | null,
@@ -26,7 +30,6 @@ export function renderLatestSection(
   const latestItemCards = renderLatestItemCards(listings);
   latestSection.appendChild(latestItemCards);
 
-  // Add load more button if callback is provided and showLoadMore is true
   if (onLoadMore && showLoadMore) {
     const loadMoreContainer = document.createElement('div');
     loadMoreContainer.className = 'flex justify-center w-full py-4';
@@ -39,7 +42,6 @@ export function renderLatestSection(
       onClick: onLoadMore,
     });
 
-    // Override button styles for dark background
     loadMoreButton.className = loadMoreButton.className
       .replace(
         'border-wexham-dark text-wexham-dark',
@@ -57,6 +59,9 @@ export function renderLatestSection(
   return latestSection;
 }
 
+/**
+ * Creates a responsive grid container with listing cards.
+ */
 function renderLatestItemCards(listings: ListingCard[]): HTMLElement {
   const latestItemsContainer = document.createElement('div');
   latestItemsContainer.className =

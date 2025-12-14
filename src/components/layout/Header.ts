@@ -14,7 +14,8 @@ export interface HeaderOptions {
 }
 
 /**
- * Creates the main header component with navigation and profile menu.
+ * Renders a responsive header that adapts to mobile/desktop viewports
+ * and displays authentication state.
  */
 export function Header(options: HeaderOptions): HTMLElement {
   const headerContainer = document.createElement('header');
@@ -104,6 +105,9 @@ async function renderDesktopHeader(
   return headerContent;
 }
 
+/**
+ * Fetches and displays user's credit balance in a horizontal bar.
+ */
 async function renderCreditsBar(userName: string): Promise<HTMLElement> {
   const creditsBar = document.createElement('div');
   creditsBar.className =
@@ -161,6 +165,10 @@ function renderNav(currentPage: HeaderProps): HTMLElement {
   return nav;
 }
 
+/**
+ * Returns either an authenticated profile menu button or a login link.
+ * Opens a dropdown menu when authenticated and clicked.
+ */
 function renderProfileButton(
   isAuthenticated: boolean,
   userName: string,
@@ -193,7 +201,8 @@ function renderProfileButton(
 }
 
 /**
- * Toggles the profile menu dropdown, closing it if open or opening it if closed.
+ * Toggles profile menu visibility. Returns the menu element when opening,
+ * or null when closing.
  */
 function toggleProfileButtonMenu(
   trigger: HTMLElement,
@@ -216,7 +225,7 @@ function toggleProfileButtonMenu(
 }
 
 /**
- * Configures an element as a menu item with proper styling and accessibility attributes.
+ * Applies menu item styling and ARIA attributes for accessibility.
  */
 function createMenuItem(element: HTMLElement): HTMLElement {
   element.tabIndex = 0;
@@ -227,10 +236,8 @@ function createMenuItem(element: HTMLElement): HTMLElement {
 }
 
 /**
- * Sets up keyboard navigation and click-outside detection for the profile menu.
- * Handles arrow keys, Escape, Tab, and clicks outside the menu to close it.
- *
- * @returns Cleanup function to remove event listeners
+ * Attaches keyboard navigation (arrows, Escape, Tab, Enter/Space) and
+ * click-outside detection. Returns a cleanup function to remove listeners.
  */
 function setupMenuNavigation(
   menuContainer: HTMLElement,
@@ -298,6 +305,10 @@ function setupMenuNavigation(
   return cleanup;
 }
 
+/**
+ * Builds the dropdown menu with profile link and logout button.
+ * Initializes keyboard navigation and click-outside handling.
+ */
 function renderProfileButtonMenu(
   trigger: HTMLElement,
   onLogout: () => void,

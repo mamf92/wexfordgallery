@@ -1,6 +1,10 @@
 import { TextInput } from '../inputs/InputField';
 import { Button } from '../ui/Buttons';
 
+/**
+ * Renders a bid submission form with amount input and submit button.
+ * Sets max bid to available credits if provided.
+ */
 export function renderBidForm(
   onSubmit: (e: SubmitEvent) => void,
   availableCredits: string

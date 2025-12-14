@@ -8,6 +8,10 @@ interface HeroSectionProps {
   items: FullListing[] | Listing[];
 }
 
+/**
+ * Renders a hero section with heading, subheading, and dynamic content based on item count.
+ * Displays a single-item hero for one item, or a multi-item carousel for multiple items.
+ */
 export function renderHeroSection({
   heading,
   subheading,
@@ -25,6 +29,9 @@ export function renderHeroSection({
   return heroSection;
 }
 
+/**
+ * Renders the header portion with main heading and subheading text.
+ */
 export function renderSectionHeader(
   heading: string,
   subheading: string
@@ -33,16 +40,20 @@ export function renderSectionHeader(
   sectionHeader.className = 'flex flex-col w-full gap-4 px-4';
   const sectionHeading = document.createElement('h1');
   sectionHeading.className = 'font-hero text-4xl xl:text-6xl text-wexham-white';
-  sectionHeading.textContent = `${heading}`;
+  sectionHeading.textContent = heading;
   const sectionSubheading = document.createElement('p');
   sectionSubheading.className =
     'font-hero-sub text-lg text-wexham-white uppercase';
-  sectionSubheading.textContent = `${subheading}`;
+  sectionSubheading.textContent = subheading;
   sectionHeader.appendChild(sectionHeading);
   sectionHeader.appendChild(sectionSubheading);
   return sectionHeader;
 }
 
+/**
+ * Determines and renders appropriate hero content based on the number of items.
+ * @throws {Error} When items array is empty or rendering fails
+ */
 function renderHeroContent(items: FullListing[] | Listing[]): HTMLElement {
   const heroContent = document.createElement('div');
   heroContent.className = 'flex flex-col w-full';

@@ -5,6 +5,9 @@ import { ApiClientError } from '../api/apiClient';
 
 const BASE = import.meta.env.BASE_URL;
 
+/**
+ * Creates the registration page container with form.
+ */
 export function renderRegistrationPage() {
   const registerViewContainer = document.createElement('section');
   registerViewContainer.className =
@@ -15,6 +18,10 @@ export function renderRegistrationPage() {
   return registerViewContainer;
 }
 
+/**
+ * Handles registration form submission.
+ * Normalizes the username, calls the API, and redirects on success.
+ */
 export async function handleRegistrationFormSubmit(event: Event) {
   event.preventDefault();
   const form = event.target as HTMLFormElement;

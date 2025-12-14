@@ -1,3 +1,6 @@
+/**
+ * Props for creating a textarea input field with label and validation.
+ */
 interface TextInputProps {
   id: string;
   name: string;
@@ -17,6 +20,10 @@ const TITLE_VARIANTS: Record<TitleVariants, string> = {
   EmailTitle: 'Email must be a @stud.noroff.no address',
 };
 
+/**
+ * Creates a textarea input field with label, validation feedback, and helper text.
+ * Validation styling updates on user interaction.
+ */
 export function TextArea({
   id,
   name,

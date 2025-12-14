@@ -14,6 +14,10 @@ export function isAuthenticated(): boolean {
   return !!localStorage.getItem(ACCESS_TOKEN_KEY);
 }
 
+export function getAccessToken(): string | null {
+  return localStorage.getItem(ACCESS_TOKEN_KEY);
+}
+
 /**
  * Sets authentication state by storing access token and user name in local storage.
  */

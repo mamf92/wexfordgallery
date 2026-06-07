@@ -112,6 +112,7 @@ async function renderCreditsBar(userName: string): Promise<HTMLElement> {
   const creditsBar = document.createElement('div');
   creditsBar.className =
     'w-full h-8 bg-wexham-white border-t border-wexham-light flex items-center justify-end pr-4';
+  creditsBar.setAttribute('aria-label', 'Your credit balance');
 
   try {
     const credits = await getCreditsForHeader(userName);
@@ -132,6 +133,7 @@ function createLogo(): HTMLElement {
   logo.tabIndex = 0;
   logo.className = 'col-1 font-heading text-3xl text-wexham-dark no-underline';
   logo.textContent = 'W';
+  logo.setAttribute('aria-label', 'The Wexford Gallery – Home');
   return logo;
 }
 
@@ -151,6 +153,7 @@ const NAV_ITEMS: NavItem[] = [
 function renderNav(currentPage: HeaderProps): HTMLElement {
   const nav = document.createElement('nav');
   nav.className = 'flex col-3 w-full justify-around xl:justify-between';
+  nav.setAttribute('aria-label', 'Main navigation');
 
   NAV_ITEMS.forEach(({ label, href, page }) => {
     const link = LinkButton({

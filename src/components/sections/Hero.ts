@@ -38,7 +38,7 @@ export function renderSectionHeader(
 ): HTMLElement {
   const sectionHeader = document.createElement('div');
   sectionHeader.className = 'flex flex-col w-full gap-4 px-4';
-  const sectionHeading = document.createElement('h1');
+  const sectionHeading = document.createElement('h2');
   sectionHeading.className = 'font-hero text-4xl xl:text-6xl text-wexham-white';
   sectionHeading.textContent = heading;
   const sectionSubheading = document.createElement('p');

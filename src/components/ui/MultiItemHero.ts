@@ -33,7 +33,7 @@ export function renderMultiItemHero(
 
   const scrollButtons = document.createElement('div');
   scrollButtons.className =
-    'flex max-lg:hidden gap-2 w-full justify-between absolute top-[75%] left-1/2 transform -translate-x-1/2';
+    'flex max-lg:hidden gap-2 w-full justify-between absolute top-[75%] left-1/2 transform -translate-x-1/2 z-10';
 
   const leftButton = Button({
     label: '‹ Previous',
@@ -57,7 +57,11 @@ export function renderMultiItemHero(
 
   scrollButtons.appendChild(leftButton);
   scrollButtons.appendChild(rightButton);
-  multiItemSlider.appendChild(scrollButtons);
 
-  return multiItemSlider;
+  const wrapper = document.createElement('div');
+  wrapper.className = 'relative w-full';
+  wrapper.appendChild(scrollButtons);
+  wrapper.appendChild(multiItemSlider);
+
+  return wrapper;
 }

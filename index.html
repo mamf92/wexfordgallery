@@ -45,8 +45,14 @@
     <link href="/src/style.css" rel="stylesheet" />
   </head>
   <body class="flex min-h-screen flex-col">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-wexham-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-wexham-dark focus:shadow-lg"
+    >
+      Skip to main content
+    </a>
     <header></header>
-    <main class="grow"></main>
+    <main id="main-content" tabindex="-1" class="grow"></main>
     <footer></footer>
     <script type="module" src="/src/main.ts"></script>
   </body>

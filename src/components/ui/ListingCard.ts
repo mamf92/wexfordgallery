@@ -78,6 +78,7 @@ export function renderMediaSection(listing: FullListing): HTMLElement | null {
   if (listing.media && listing.media.length > 1) {
     const mediaSlider = document.createElement('div');
     mediaSlider.className = `flex overflow-x-scroll snap-x snap-mandatory ${customScrollbar} border-wexham-dark border-b-1 w-full h-80 gap-2`;
+
     listing.media.forEach((mediaItem) => {
       const mediaLink = document.createElement('a');
       mediaLink.className =
@@ -85,30 +86,6 @@ export function renderMediaSection(listing: FullListing): HTMLElement | null {
       mediaLink.href = BASE + `listing/${listing.id}`;
       mediaLink.tabIndex = 0;
       mediaLink.setAttribute('aria-label', `View post titled ${listing.title}`);
-      const scrollButtons = document.createElement('div');
-      scrollButtons.className =
-        'flex max-lg:hidden gap-2 w-full justify-between absolute top-69 left-1/2 transform -translate-x-1/2';
-      const leftButton = Button({
-        label: '‹ Previous',
-        variant: 'tertiary',
-        size: 'small',
-        onClick: () => {
-          mediaSlider.scrollBy({ left: -300, behavior: 'smooth' });
-        },
-      });
-      leftButton.className += ' bg-wexham-white/70';
-      const rightButton = Button({
-        label: 'Next ›',
-        variant: 'tertiary',
-        size: 'small',
-        onClick: () => {
-          mediaSlider.scrollBy({ left: 300, behavior: 'smooth' });
-        },
-      });
-      rightButton.className += ' bg-wexham-white/70';
-      scrollButtons.appendChild(leftButton);
-      scrollButtons.appendChild(rightButton);
-      mediaSlider.appendChild(scrollButtons);
 
       const img = document.createElement('img');
       img.src = mediaItem.url;
@@ -117,7 +94,37 @@ export function renderMediaSection(listing: FullListing): HTMLElement | null {
       mediaLink.appendChild(img);
       mediaSlider.appendChild(mediaLink);
     });
-    return mediaSlider;
+
+    const scrollButtons = document.createElement('div');
+    scrollButtons.className =
+      'flex max-lg:hidden gap-2 w-full justify-between absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10';
+    const leftButton = Button({
+      label: '‹ Previous',
+      variant: 'tertiary',
+      size: 'small',
+      onClick: () => {
+        mediaSlider.scrollBy({ left: -300, behavior: 'smooth' });
+      },
+    });
+    leftButton.className += ' bg-wexham-white/70';
+    const rightButton = Button({
+      label: 'Next ›',
+      variant: 'tertiary',
+      size: 'small',
+      onClick: () => {
+        mediaSlider.scrollBy({ left: 300, behavior: 'smooth' });
+      },
+    });
+    rightButton.className += ' bg-wexham-white/70';
+    scrollButtons.appendChild(leftButton);
+    scrollButtons.appendChild(rightButton);
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'relative w-full h-80';
+    wrapper.appendChild(scrollButtons);
+    wrapper.appendChild(mediaSlider);
+
+    return wrapper;
   }
   return null;
 }

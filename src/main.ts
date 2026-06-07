@@ -82,8 +82,9 @@ function setupNavigation(router: Router) {
     const target = event.target as HTMLElement;
     const link = target.closest('a[href]') as HTMLAnchorElement;
     if (link && link.href.startsWith(window.location.origin)) {
-      event.preventDefault();
       const url = new URL(link.href);
+      if (url.hash && url.pathname === window.location.pathname) return;
+      event.preventDefault();
       router.navigate(url.pathname);
     }
   });
